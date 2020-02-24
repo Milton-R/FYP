@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'GardenController@index');
+
+Route::get('/addplants', function () {
+    return view('plants_form');
 });
+
+Route::get('/locations', 'LocationController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
