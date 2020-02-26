@@ -1,8 +1,25 @@
-<!DOCTYPE html>
-<nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+@extends('layouts.app')
+
+@section('content')
+
+    <div class="container">
+
+        <div class="flex-center position-ref full-height">
+            <div class="top-right links">
+
+                <a href="{{ url('/home') }}">Home</a>
+                <a href="{{ url('/locations') }}">Location</a>
+                <a href="{{ url('/plants') }}">Plants</a>
+                <a href="{{ url('/tasks') }}">Task</a>
+            </div>
+        </div>
+
+        <h1>{{$location}}</h1>
+
+        <a class="btn btn-primary" href="/addlocation" role="button">Delete</a>
+
+
+
+
     </div>
-</nav>
+@endsection

@@ -16,20 +16,23 @@
 
         <a class="btn btn-primary" href="/addlocation" role="button">add new</a>
 
-        @foreach ($localInGarden as $location)
-        <div class="row justify-content-lg-start">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        {{$location->name}}
-                    </div>
+        @foreach ($locations as $location)
+            <a href="/locations/{{$location->id}}" >{{$location-> name}} </a>
+{{--            @foreach ($location->location as $local)--}}
+{{--        <div class="row justify-content-lg-start">--}}
+{{--            <div class="col-md-8">--}}
+{{--                <div class="card">--}}
+{{--                    <div class="card-header">--}}
+{{--                        {{$local->id}}--}}
+{{--                    </div>--}}
 
-                    <div class="card-body">
-                        {{$location->notes}}
-                    </div>
-                </div>
-            </div>
-        </div>
+{{--                    <div class="card-body">--}}
+{{--                        {{$local->name}}--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--            @endforeach--}}
         @endforeach
 
     </div>

@@ -22,3 +22,5 @@ Route::get('/locations', 'LocationController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/locations/{id}', 'LocationController@show');

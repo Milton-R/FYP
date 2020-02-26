@@ -12,9 +12,9 @@ class Locations extends Model
     public $primaryKey= 'id';
 
 
-    public function garden(){
+    public function user(){
 
-        return $this->belongsTo('APP\Garden');
+        return $this->belongsTo(User::class);
     }
 
     public function plants() {
