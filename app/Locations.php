@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Locations extends Model
 {
     // table name
-    Protected $table  ='locations';
+    protected $table  ='locations';
     // Primary Key
     public $primaryKey= 'id';
+
+    protected $guarded = [];
 
 
     public function user(){

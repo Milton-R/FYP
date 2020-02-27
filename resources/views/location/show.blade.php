@@ -16,8 +16,8 @@
 
         <h1>{{$location}}</h1>
 
-        <a class="btn btn-primary" href="/addlocation" role="button">Delete</a>
 
+        <a class="btn btn-primary" href="/" role="button">Delete</a>
 
 
 

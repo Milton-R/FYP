@@ -13,10 +13,6 @@
 
 Route::get('/', 'GardenController@index');
 
-Route::get('/addplants', function () {
-    return view('plants_form');
-});
-
 Route::get('/locations', 'LocationController@index');
 
 Auth::routes();
@@ -24,3 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/locations/{id}', 'LocationController@show');
+Route::delete('/locations/{id}', 'LocationController@destroy');
+Route::get('/location/create', 'LocationController@create');
+Route::post('/locations', 'LocationController@store');
+
