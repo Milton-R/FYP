@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <a class="btn btn-primary" href="/location/create" role="button">add new</a>
+        <a class="btn btn-primary" href="/locations/create" role="button">add new</a>
 
         @foreach ($locations as $location)
             <a href="/locations/{{$location->id}}" >{{$location-> name}} </a>

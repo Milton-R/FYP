@@ -1,7 +1,7 @@
 @extends('layout')
 
-<form action="/create" method="post">
-
+<form action="/locations" method="post">
+    @csrf
 
         <div class="form-group">
             <label for="LocationImagef">Example file input</label>
@@ -10,7 +10,7 @@
 
         <div class="form-group">
             <label for="LocationNamef">Location</label>
-            <input type="email" class="form-control" name="locationNamef">
+            <input type="text" class="form-control" name="locationNamef">
         </div>
 
 
@@ -40,5 +40,7 @@
             <textarea class="form-control" name="locationNamef" rows="5"></textarea>
         </div>
 
-@csrf
+        <button type="submit"></button>
+
+
 </form>
