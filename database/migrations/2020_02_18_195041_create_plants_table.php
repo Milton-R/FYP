@@ -18,7 +18,7 @@ class CreatePlantsTable extends Migration
             $table->string('name');
             $table->integer('ammount');
             $table->string('plant type');
-            $table->string('picture');
+            $table->string('picture')->nullable();
             $table->longText('notes');
             $table->Date('planted_at');
             $table -> unsignedBigInteger('user_id')->index();

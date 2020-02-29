@@ -23,6 +23,6 @@ Route::get('/locations', 'LocationController@index');
 Route::get('/locations/create', 'LocationController@create');
 Route::post('/locations', 'LocationController@store');
 Route::get('/locations/{id}', 'LocationController@show');
-//Route::get('/locations/{id}/edit', 'LocationController@edit');
+Route::get('/locations/{id}/edit', 'LocationController@edit');
 //Route::put('locations/{id}', 'LocationController@update');
-//Route::delete('/locations/{id}', 'LocationController@destroy');
+Route::delete('/locations/{id}', 'LocationController@destroy');

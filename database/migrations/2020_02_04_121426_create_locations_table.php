@@ -18,9 +18,12 @@ class CreateLocationsTable extends Migration
             $table -> unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('name');
-            $table->string('picture');
+            $table->string('plantType');
+            $table->string('otherType')->nullable();
+            $table->string('picture')->nullable();
             $table->longText('notes');
             $table->Date('created_at');
+            $table->Date('updated_at');
         });
     }
 

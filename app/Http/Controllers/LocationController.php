@@ -14,42 +14,43 @@ class LocationController extends Controller
     //
     public function index(){
 
-        $user = Auth::id();
-        $locations = User::find($user)->locations;
+        $user_id = Auth::id();
+        $locations = User::find($user_id)->locations;
         return view('location.index' , compact('locations'));
 
     }
+
     public function store(){
 
-//        $data->request()->validate([
-//            'name'=>'required',
-//            'picture'=>'nullable',
-//            'notes'=>'required',
-//
-//        ]);
-//        \APP\Locations::create($data);
-
-        var_dump(request('locationpic'));
-        var_dump(request('locationNamef'));
-        var_dump(request('plantTypeF'));
-        var_dump(request('otherPlantTypef'));
-        var_dump(request('locationNamef'));
+        $data = request()->validate([
+            'user_id' => 'required',
+            'name' =>'required',
+            'plantType' =>'required_without:otherType',
+            'otherType' =>'nullable',
+            'picture' =>'nullable',
+            'notes' =>'required',
+            'created_at' => 'required'
+        ]);
+           \App\Locations::create($data);
 
 
-      //  return  redirect('/customers') ;
+        return redirect('/locations');
     }
+
     public function show($id){
 
-        $user = Auth::id();
-        $location = User::find($user)->locations->find($id);
+        $user_id = Auth::id();
+        $location = User::find($user_id)->locations->find($id);
         return view('location.show' , compact('location'));
+    }
+    public function edit($id){
+
+        $user_id = Auth::id();
+        $location = User::find($user_id)->locations->find($id);
+        return view('location.edit' , compact('location'));
 
     }
-    public function edit(){
 
-        return view('location.show_location' , compact('location'));
-
-    }
     public function create(){
 
         $user_id = Auth::id();
@@ -63,10 +64,9 @@ class LocationController extends Controller
     }
     public function destroy($id){
 
-        $user = Auth::id();
-        $location = User::find($user)->locations->find($id);
-        return view('location.show_location' , compact('location'));
-
+        $user_id = Auth::id();
+        $location = User::find($user_id)->locations->find($id)->delete();
+        return  redirect('/locations');
     }
 
 }

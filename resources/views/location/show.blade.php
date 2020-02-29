@@ -14,10 +14,18 @@
             </div>
         </div>
 
-        <h1>{{$location}}</h1>
+        <a class="btn btn-primary" href="/locations/{{$location->id}}/edit" role="button">add new</a>
+
+        <form action="/locations/{{$location->id}}" method="post">
+            @method('DELETE')
+            @csrf
+            <h1>{{$location}}</h1>
+            <button type="submit" class="btn btn-danger" >
+                Delete
+            </button>
+        </form>
 
 
-        <a class="btn btn-primary" href="/" role="button">Delete</a>
 
 
 
