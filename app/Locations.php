@@ -20,6 +20,6 @@ class Locations extends Model
     }
 
     public function plants() {
-        return $this -> belongsToMany('APP\Plants');
+        return $this -> hasMany(Plants::class);
     }
 }

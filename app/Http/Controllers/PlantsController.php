@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Locations;
-use App\Plants;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Location;
-use PHPUnit\Util\PHP\AbstractPhpProcess;
 
-class LocationController extends Controller
+class PlantsController extends Controller
 {
     //
     public function index(){
@@ -32,7 +28,7 @@ class LocationController extends Controller
             'notes' =>'required',
             'created_at' => 'required'
         ]);
-           \App\Locations::create($data);
+        \App\Locations::create($data);
 
 
         return redirect('/locations');
@@ -42,8 +38,7 @@ class LocationController extends Controller
 
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id);
-        $plants = $location->plants;
-        return view('location.show' , compact('location', 'plants'));
+        return view('location.show' , compact('location'));
     }
     public function edit($id){
 
@@ -83,36 +78,5 @@ class LocationController extends Controller
         $location = User::find($user_id)->locations->find($id)->delete();
         return  redirect('/locations');
     }
-
-
-
-    public function location_create_plant($id){
-
-        $user_id = Auth::id();
-        $location = User::find($user_id)->locations->find($id);
-        return view('plant.create' , compact('location'));
-
-    }
-
-    public function location_store_plant(){
-
-        $data = request()->validate([
-            'name' =>'required',
-            'amount' =>'required',
-            'plant_type' =>'required',
-            'picture' =>'nullable',
-            'notes' =>'required',
-            'planted_at' => 'required',
-            'user_id' => 'required',
-            'locations_id' =>'required'
-        ]);
-
-        Plants::create($data);
-
-        return redirect('/locations');
-
-
-    }
-
 
 }

@@ -1,24 +1,27 @@
 @extends('layout')
 
-<form action="/locations" method="post">
+<form action="/locations/{{$location->id}}" method="post">
+    @method('PUT')
     @csrf
 
         <input type="hidden"  name='user_id'  value={{ Auth::user()->id }} >
 
         <div class="form-group">
-            <label for="LocationImagef">Example file input</label>
+            <label for="picture">Example file input</label>
             <input type="file" class="form-control-file"  value="{{$location->picture}}" id="LocationImagef" name="picture">
+            @error('picture') <p style="color:red;">{{$message}}</p>@enderror
         </div>
 
         <div class="form-group">
-            <label for="LocationNamef">Location</label>
+            <label for="name">Location</label>
             <input type="text" class="form-control" value="{{$location->name}}" name="name">
+            @error('name') <p style="color:red;">{{$message}}</p>@enderror
         </div>
 
 
 
         <div class="form-group">
-            <label for="PlantTypeF">Plant Type</label>
+            <label for="plantType">Plant Type</label>
             <select class="form-control" name="plantType">
                 <option> </option>
                 <option>Flower</option>
@@ -27,28 +30,32 @@
                 <option>Herb</option>
                 <option>Shrubs</option>
             </select>
+            @error('plantType') <p style="color:red;">{{$message}}</p>@enderror
         </div>
 
 
-
         <div class="form-group">
-            <label for="OtherPlantTypef">Plant Name</label>
+            <label for="othertype">Plant Name</label>
             <input type="text" class="form-control" value="{{$location->otherType}}" name="otherType">
+            @error('othertype') <p style="color:red;">{{$message}}</p>@enderror
         </div>
-
-        <div class="form-group">
-            <label for="DatePlantedf">Plant Name</label>
-            <input type="date" class="form-control" id="DatePlantedf" value="{{$location->otherType}}" name="created_at">
-        </div>
-
 
 
         <div class="form-group">
-            <label for="LocationNotesF">Notes</label>
-            <textarea class="form-control" name="notes" value="{{$location->note}}" rows="5" ></textarea>
+            <label for="created_at">Date created</label>
+            <input type="date" class="form-control" id="DatePlantedf" value="{{$location->created_at->toDateString()}}" name="created_at">
+            @error('DatePlantedf') <p style="color:red;">{{$message}}</p>@enderror
         </div>
 
-        <button type="submit"></button>
+
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" name="notes" rows="10">{{$location->notes}}</textarea>
+            @error('notes') <p style="color:red;">{{$message}}</p>@enderror
+        </div>
+
+
+        <button class="btn-primary" type="submit">Edit</button>
 
 
 </form>

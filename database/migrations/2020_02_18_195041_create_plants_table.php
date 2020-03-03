@@ -16,13 +16,15 @@ class CreatePlantsTable extends Migration
         Schema::create('plants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('ammount');
-            $table->string('plant type');
+            $table->integer('amount');
+            $table->string('plant_type');
             $table->string('picture')->nullable();
             $table->longText('notes');
             $table->Date('planted_at');
             $table -> unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users');
+            $table -> unsignedBigInteger('locations_id')->index();
+            $table->foreign('locations_id')->references('id')->on('locations');
         });
     }
 

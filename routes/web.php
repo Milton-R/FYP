@@ -24,5 +24,16 @@ Route::get('/locations/create', 'LocationController@create');
 Route::post('/locations', 'LocationController@store');
 Route::get('/locations/{id}', 'LocationController@show');
 Route::get('/locations/{id}/edit', 'LocationController@edit');
-//Route::put('locations/{id}', 'LocationController@update');
+Route::put('locations/{id}', 'LocationController@update');
 Route::delete('/locations/{id}', 'LocationController@destroy');
+
+Route::post('/location/store_plant', 'LocationController@location_store_plant');
+Route::get('/locations/{id}/create_plant', 'LocationController@location_create_plant');
+
+Route::get('/plant', 'PlantController@index');
+Route::get('/plant/create', 'PlantController@create');
+Route::post('/plant', 'PlantController@store');
+Route::get('/plant/{plant_id}', 'PlantController@show');
+Route::get('/plant/{plant_id}/edit', 'PlantController@edit');
+Route::put('plant/{plant_id}', 'PlantController@update');
+Route::delete('/plant/{plant_id}', 'PlantController@destroy');

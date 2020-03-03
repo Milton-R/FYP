@@ -14,17 +14,41 @@
             </div>
         </div>
 
-        <a class="btn btn-primary" href="/locations/{{$location->id}}/edit" role="button">add new</a>
+        <a class="btn btn-primary" href="/locations/{{$location->id}}/edit" role="button">Edit Location</a>
+        <a class="btn btn-primary" href="/locations/{{$location->id}}/create_plant" role="button">add plant</a>
 
-        <form action="/locations/{{$location->id}}" method="post">
-            @method('DELETE')
-            @csrf
-            <h1>{{$location}}</h1>
+            <h1>{{$location->notes}}</h1>
             <button type="submit" class="btn btn-danger" >
                 Delete
             </button>
         </form>
 
+
+        @foreach ($location->plants as $plant)
+            <form action="/locations/{{$location->id}}" method="post">
+                @method('DELETE')
+                @csrf
+            <a href="/locations/{{$plant->id}}" >{{$plant-> name}} </a>
+
+                    <div class="row justify-content-lg-start">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    {{$plant->id}}
+                                </div>
+
+                                <div class="card-body">
+                                    {{$plant->name}}
+                                    <button type="submit" class="btn btn-danger" >
+                                        Delete
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        @endforeach
 
 
 

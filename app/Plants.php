@@ -12,9 +12,13 @@ class Plants extends Model
     // Primary Key
     public $primaryKey= 'id';
 
+    protected $guarded = [];
+
+    public $timestamps = false;
+
     public function location(){
 
-        return $this-> belongsToMany('APP\Locations');
+        return $this-> belongsTo('APP\Locations');
     }
     public function garden() {
         return $this-> belongsTo('APP\User');
