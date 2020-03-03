@@ -18,21 +18,23 @@
 
         @foreach ($plants as $plant)
             <a href="/locations/{{$plant->id}}">{{$plant-> name}} </a>
-            {{--            @foreach ($location->location as $local)--}}
-            {{--        <div class="row justify-content-lg-start">--}}
-            {{--            <div class="col-md-8">--}}
-            {{--                <div class="card">--}}
-            {{--                    <div class="card-header">--}}
-            {{--                        {{$local->id}}--}}
-            {{--                    </div>--}}
 
-            {{--                    <div class="card-body">--}}
-            {{--                        {{$local->name}}--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-            {{--        </div>--}}
-            {{--            @endforeach--}}
+                    <div class="row justify-content-lg-start">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    {{$plant->name}}
+
+                                </div>
+
+                                <div class="card-body">
+                                    {{$plant->planttype}}
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
         @endforeach
 
     </div>

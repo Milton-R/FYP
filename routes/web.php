@@ -13,8 +13,6 @@
 
 Route::get('/', 'GardenController@index');
 
-Route::get('/locations', 'LocationController@index');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -30,10 +28,18 @@ Route::delete('/locations/{id}', 'LocationController@destroy');
 Route::post('/location/store_plant', 'LocationController@location_store_plant');
 Route::get('/locations/{id}/create_plant', 'LocationController@location_create_plant');
 
-Route::get('/plant', 'PlantController@index');
-Route::get('/plant/create', 'PlantController@create');
-Route::post('/plant', 'PlantController@store');
-Route::get('/plant/{plant_id}', 'PlantController@show');
-Route::get('/plant/{plant_id}/edit', 'PlantController@edit');
-Route::put('plant/{plant_id}', 'PlantController@update');
-Route::delete('/plant/{plant_id}', 'PlantController@destroy');
+Route::get('/plants', 'PlantController@index');
+Route::get('/plants/create', 'PlantController@create');
+Route::post('/plants', 'PlantController@store');
+Route::get('/plants/{plant_id}', 'PlantController@show');
+Route::get('/plants/{plant_id}/edit', 'PlantController@edit');
+Route::put('plants/{plant_id}', 'PlantController@update');
+Route::delete('/plants/{plant_id}', 'PlantController@destroy');
+
+Route::get('/tasks', 'PlantController@index');
+Route::get('/tasks/create', 'PlantController@create');
+Route::post('/tasks', 'PlantController@store');
+Route::get('/tasks/{plant_id}', 'PlantController@show');
+Route::get('/tasks/{plant_id}/edit', 'PlantController@edit');
+Route::put('tasks/{plant_id}', 'PlantController@update');
+Route::delete('/tasks/{plant_id}', 'PlantController@destroy');

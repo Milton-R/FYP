@@ -91,7 +91,6 @@ class LocationController extends Controller
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id);
         return view('plant.create' , compact('location'));
-
     }
 
     public function location_store_plant(){
@@ -107,7 +106,7 @@ class LocationController extends Controller
             'locations_id' =>'required'
         ]);
 
-        Plants::create($data);
+            Plants::create($data);
 
         return redirect('/locations');
 

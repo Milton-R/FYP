@@ -17,22 +17,26 @@
         <a class="btn btn-primary" href="/locations/create" role="button">add new</a>
 
         @foreach ($locations as $location)
+            <form action="/locations/{{$location->id}}" method="post">
+                @method('DELETE')
+                @csrf
             <a href="/locations/{{$location->id}}" >{{$location-> name}} </a>
-            {{--            @foreach ($location->location as $local)--}}
-            {{--        <div class="row justify-content-lg-start">--}}
-            {{--            <div class="col-md-8">--}}
-            {{--                <div class="card">--}}
-            {{--                    <div class="card-header">--}}
-            {{--                        {{$local->id}}--}}
-            {{--                    </div>--}}
+                    <div class="row justify-content-lg-start">
 
-            {{--                    <div class="card-body">--}}
-            {{--                        {{$local->name}}--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-            {{--        </div>--}}
-            {{--            @endforeach--}}
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    {{$location->id}}
+                                </div>
+
+                                <div class="card-body">
+                                    {{$location->name}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
         @endforeach
 
     </div>
