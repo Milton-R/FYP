@@ -36,8 +36,7 @@
                             </div>
                         </div>
                     </div>
-
+            </form>
         @endforeach
-
     </div>
 @endsection

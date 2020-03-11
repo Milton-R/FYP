@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-            <label for="DatePlantedf">Plant Name</label>
+            <label for="DatePlantedf">Date created</label>
             <input type="date" class="form-control" id="DatePlantedf" name="created_at">
         </div>
 

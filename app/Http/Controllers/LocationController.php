@@ -32,6 +32,7 @@ class LocationController extends Controller
             'notes' =>'required',
             'created_at' => 'required'
         ]);
+
            \App\Locations::create($data);
 
 

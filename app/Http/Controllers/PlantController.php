@@ -13,7 +13,7 @@ class PlantController extends Controller
     public function index(){
 
         $user_id = Auth::id();
-        $plants = User::find($user_id)->plantsgoo;
+        $plants = User::find($user_id)->plants;
         return view('plant.index' , compact('plants'));
     }
 

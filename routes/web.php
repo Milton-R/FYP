@@ -17,6 +17,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
+
 Route::get('/locations', 'LocationController@index');
 Route::get('/locations/create', 'LocationController@create');
 Route::post('/locations', 'LocationController@store');
@@ -37,8 +40,8 @@ Route::put('plants/{plant_id}', 'PlantController@update');
 Route::delete('/plants/{plant_id}', 'PlantController@destroy');
 
 Route::get('/tasks', 'PlantController@index');
-Route::get('/tasks/create', 'PlantController@create');
-Route::post('/tasks', 'PlantController@store');
+Route::get('/tasks/create', 'HomeController@create');
+Route::post('/tasks', 'HomeController@store');
 Route::get('/tasks/{plant_id}', 'PlantController@show');
 Route::get('/tasks/{plant_id}/edit', 'PlantController@edit');
 Route::put('tasks/{plant_id}', 'PlantController@update');

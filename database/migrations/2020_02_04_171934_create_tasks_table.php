@@ -17,8 +17,9 @@ class CreateTasksTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('description');
-            $table->string('importance');
-            $table->string('status');
+            $table->integer('importance');
+            $table->integer('status');
+            $table->date('due_Date');
             $table -> unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

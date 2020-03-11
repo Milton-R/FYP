@@ -11,6 +11,8 @@ class Tasks extends Model
     // Primary Key
     public $primaryKey= 'id';
 
+    protected $guarded = [];
+
     public function user(){
 
         return $this->belongsTo('APP\User');
