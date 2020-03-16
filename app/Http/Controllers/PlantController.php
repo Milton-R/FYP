@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Nature\Plant;
 
-class PlantController extends Controller
+class qPlantController extends Controller
 {
     //
     public function index(){

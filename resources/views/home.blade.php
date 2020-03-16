@@ -41,13 +41,13 @@
 
                     <ul class="list-group list-group-flush">
                         @foreach($tasks as $task)
-                        <form action="#" method="post">
+                        <form action="tasks/{{$task->id}}" method="post">
                             @method('DELETE')
                             @csrf
                         <li class="list-group-item">
                             <div class="card-body">
-                                <h3>{{$task->title}}</h3>
-                                <button type="submit" class="btn btn-danger" >
+                                <p style="display: inline-flex">{{$task->title}}</p>
+                                <button  style=" display: inline" type="submit" class="btn btn-danger" >
                                     Delete
                                 </button>
                             </div>

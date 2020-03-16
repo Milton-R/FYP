@@ -55,6 +55,12 @@ class HomeController extends Controller
         return view('task.create' , compact('user_id'));
     }
 
+    public function destroy($id){
+
+        $user_id = Auth::id();
+        $tasks = User::find($user_id)->tasks->find($id)->delete();
+        return  redirect('home');
+    }
 
 
 }

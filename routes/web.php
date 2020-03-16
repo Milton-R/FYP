@@ -45,4 +45,4 @@ Route::post('/tasks', 'HomeController@store');
 Route::get('/tasks/{plant_id}', 'PlantController@show');
 Route::get('/tasks/{plant_id}/edit', 'PlantController@edit');
 Route::put('tasks/{plant_id}', 'PlantController@update');
-Route::delete('/tasks/{plant_id}', 'PlantController@destroy');
+Route::delete('/tasks/{id}', 'HomeController@destroy');
