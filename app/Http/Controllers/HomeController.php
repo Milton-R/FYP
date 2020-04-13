@@ -26,9 +26,13 @@ class HomeController extends Controller
     public function index()
     {
         $user_id = Auth::id();
-        $tasks = User::find($user_id)->tasks;
+        $todo_tasks = User::find($user_id)->tasks()->where('status', 1)->get();
 
-        return view('home', compact('tasks'));
+        $doing_tasks = User::find($user_id)->tasks()->where('status', 2)->get();
+
+        $done_tasks = User::find($user_id)->tasks()->where('status', 3)->get();
+
+        return view('home', compact('todo_tasks','doing_tasks', 'done_tasks'));
 
     }
 
@@ -46,7 +50,7 @@ class HomeController extends Controller
         \App\Tasks::create($data);
 
 
-        return redirect()->back();
+        return redirect('home');
     }
 
     public function create(){
@@ -55,12 +59,27 @@ class HomeController extends Controller
         return view('task.create' , compact('user_id'));
     }
 
+    public function update($id){
+
+        $data = request()->validate([
+            'status' =>'required',
+        ]);
+        $user_id = Auth::id();
+        $tasks = User::find($user_id)->tasks->find($id);
+        $tasks->update($data);
+
+
+        return redirect('home');
+    }
+
     public function destroy($id){
 
         $user_id = Auth::id();
         $tasks = User::find($user_id)->tasks->find($id)->delete();
         return  redirect('home');
     }
+
+
 
 
 }

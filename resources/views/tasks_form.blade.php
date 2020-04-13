@@ -1,4 +1,4 @@
-@extends('layout')
+     @extends('layout')
 
 <form action="/action_page.php">
     <form>

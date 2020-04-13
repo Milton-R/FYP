@@ -39,6 +39,5 @@
             <div class="offset-sm-2 col-sm-10">
                 <button type="submit" class="btn btn-primary">Sign in</button>
             </div>
-
     </form>
 </form>
