@@ -43,7 +43,7 @@ class LocationController extends Controller
 
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id);
-        $plants = $location->plants;
+        $plants = $location -> plants;
         return view('location.show' , compact('location', 'plants'));
     }
     public function edit($id){
@@ -112,6 +112,13 @@ class LocationController extends Controller
         return redirect('/locations');
 
 
+    }
+
+    public function location_delete_plant($id){
+
+        $user_id = Auth::id();
+        $locationplant = User::find($user_id)->plants->find($id)->delete();
+        return  redirect('/locations');
     }
 
 

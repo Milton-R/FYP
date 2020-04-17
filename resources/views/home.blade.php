@@ -1,16 +1,43 @@
 @extends('layouts.app')
+<style>
+    .dropbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
 
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {background-color: #ddd;}
+
+    .dropdown:hover .dropdown-content {display: block;}
+
+    .dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
 @section('content')
-    <div class="container">
-
-        <div class="flex-center position-ref full-height">
-            <div class="top-right links">
-
-                <a href="{{ url('/home') }}">Home</a>
-                <a href="{{ url('/locations') }}">Location</a>
-                <a href="{{ url('/plants') }}">Plants</a>
-                <a href="{{ url('/tasks') }}">Task</a>
-            </div>
+    <div style=" width:50%; margin-left:25%">
+    <div class="container" >
 
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -43,7 +70,9 @@
                         @foreach($todo_tasks as $task)
                         <li class="list-group-item">
                             <div class="card-body">
+
                                 <p style="display: inline-flex">{{$task->title}}</p>
+
                                 <div class="dropdown">
                                     <button class="dropbtn">Dropdown</button>
                                     <div class="dropdown-content">
@@ -51,7 +80,7 @@
                                             <form action="tasks/{{$task->id}}" method="post">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button  style=" display: inline" type="submit" class="btn btn-danger" >
+                                                <button  style=" display: inline" onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger" >
                                                     Delete
                                                 </button>
                                             </form>
@@ -81,9 +110,11 @@
                     <div class="card-header">
                         <h3>Doing:</h3>
                     </div>
+                    <ul class="list-group list-group-flush">
                     @foreach($doing_tasks as $task)
                         <li class="list-group-item">
                             <div class="card-body">
+                                <p style="display: inline-flex">{{$task->title}}</p>
                                 <div class="dropdown">
                                     <button class="dropbtn">Dropdown</button>
                                     <div class="dropdown-content">
@@ -137,6 +168,7 @@
                         @foreach($done_tasks as $task)
                             <li class="list-group-item">
                                 <div class="card-body">
+                                    <p style="display: inline-flex">{{$task->title}}</p>
                                     <div class="dropdown">
                                         <button class="dropbtn">Dropdown</button>
                                         <div class="dropdown-content">
@@ -170,11 +202,8 @@
                     </ul>
                 </div>
             </div>
-
-
-
     </div>
-
+</div>
 
 
 @endsection

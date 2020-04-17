@@ -27,6 +27,7 @@ Route::get('/locations/{id}', 'LocationController@show');
 Route::get('/locations/{id}/edit', 'LocationController@edit');
 Route::put('locations/{id}', 'LocationController@update');
 Route::delete('/locations/{id}', 'LocationController@destroy');
+Route::delete('/locations_delete_plant/{id}', 'LocationController@location_delete_plant');
 
 Route::post('/location/store_plant', 'LocationController@location_store_plant');
 Route::get('/locations/{id}/create_plant', 'LocationController@location_create_plant');

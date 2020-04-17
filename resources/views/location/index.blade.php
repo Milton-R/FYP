@@ -20,17 +20,23 @@
             <form action="/locations/{{$location->id}}" method="post">
                 @method('DELETE')
                 @csrf
-            <a href="/locations/{{$location->id}}" >{{$location-> name}} </a>
+
                     <div class="row justify-content-lg-start">
 
                         <div class="col-md-8">
                             <div class="card">
+                                <a href="/locations/{{$location->id}}" >
                                 <div class="card-header">
-                                    {{$location->id}}
+                                    {{$location->name}}
                                 </div>
+                                </a>
 
                                 <div class="card-body">
-                                    {{$location->name}}
+                                    <img src="{{$location->created_at}}" alt="">
+                                   <span>  {{$location->name}} </span>
+                                    <span>  {{$location->plantType}} </span>
+                                    <span>  {{$location->created_at}} </span>
+
                                 </div>
 
                             </div>

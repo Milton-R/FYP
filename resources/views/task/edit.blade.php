@@ -1,5 +1,5 @@
-@extends('layout')
-
+@extends('layouts.app')
+<div style=" width:50%; margin-left:25%">
 <form action="/action_page.php">
 
 
@@ -42,3 +42,4 @@
             </div>
 
 </form>
+        </div>
