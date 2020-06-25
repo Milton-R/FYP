@@ -21,19 +21,35 @@ class LocationController extends Controller
 
     }
 
-    public function store(){
+    public function store(Request $request)
+    {
 
-        $data = request()->validate([
+        $this->validate($request, [
             'user_id' => 'required',
-            'name' =>'required',
-            'plantType' =>'required_without:otherType',
-            'otherType' =>'nullable',
-            'picture' =>'nullable',
-            'notes' =>'required',
+            'name' => 'required',
+            'plantType' => 'required_without:otherType',
+            'otherType' => 'nullable',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,max:500',
+            'notes' => 'required',
             'created_at' => 'required'
         ]);
 
-           \App\Locations::create($data);
+        if ($fileNameWithExt = $request->file('picture')->getClientOriginalName()){
+        $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+        $locationimage = $request->file('picture')->getClientOriginalExtension();
+        $imageNameToStore = $filename . '_' . time() . '.' . $locationimage;
+        $path = $request ->file('picture')->storeAs('public/location', $imageNameToStore);
+    }
+
+           $location =new \App\Locations;
+           $location ->  user_id = $request->input('user_id');
+           $location ->  name = $request->input('name');
+           $location ->  plantType = $request->input('plantType');
+           $location ->  otherType = $request->input('otherType');
+           $location ->  picture = $imageNameToStore;
+           $location ->  notes = $request->input('notes');
+           $location ->  created_at = $request->input('created_at');
+           $location -> save();
 
 
         return redirect('/locations');
@@ -66,7 +82,7 @@ class LocationController extends Controller
             'name' =>'required',
             'plantType' =>'required_without:otherType',
             'otherType' =>'nullable',
-            'picture' =>'nullable',
+            'picture' =>'nullable|image|mimes:jpeg,png',
             'notes' =>'required',
             'created_at' => 'required'
         ]);

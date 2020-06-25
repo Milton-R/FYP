@@ -11,14 +11,12 @@
 |
 */
 
-Route::get('/', 'GardenController@index');
-
+Route::get('/weather', 'WeatherController@cityCollection');
+Route::get('/weatherss', 'WeatherController@index');
 Auth::routes();
 
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
-
-
-
 
 Route::get('/locations', 'LocationController@index');
 Route::get('/locations/create', 'LocationController@create');

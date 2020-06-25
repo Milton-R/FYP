@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@section('tasks')
 <style>
     .dropbtn {
         background-color: #4CAF50;
@@ -35,33 +35,12 @@
 
     .dropdown:hover .dropbtn {background-color: #3e8e41;}
 </style>
-@section('content')
+
     <div style=" width:50%; margin-left:25%">
     <div class="container" >
 
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">Dashboard</div>
-
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-
-                            You are logged in!
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div style="margin:10px" id="openweathermap-widget-1"></div>
+        <div id="openweathermap-widget-1"></div>
         <script src='//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js'></script><script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 1,cityid: '2643743',appid: '66558235d392bd37f58293db6dd6f887',units: 'metric',containerid: 'openweathermap-widget-1',  });  (function() {var script = document.createElement('script');script.async = true;script.charset = "utf-8";script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>
-
 
             <div class="row">
                 <div class="card col-4" style=" margin-top:10%; ">

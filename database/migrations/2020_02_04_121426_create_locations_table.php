@@ -20,7 +20,7 @@ class CreateLocationsTable extends Migration
             $table->string('name');
             $table->string('plantType');
             $table->string('otherType')->nullable();
-            $table->string('picture')->nullable();
+            $table->string('picture')->default('/uploads/default.jpg');
             $table->longText('notes');
             $table->Date('created_at');
             $table->Date('updated_at');

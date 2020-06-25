@@ -1,6 +1,6 @@
 @extends('layout')
 
-<form action="/locations" method="post">
+<form action="/locations" method="post" enctype="multipart/form-data">
     @csrf
 
         <input type="hidden"  name='user_id'  value={{ Auth::user()->id }} >
