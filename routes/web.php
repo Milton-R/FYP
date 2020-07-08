@@ -12,7 +12,7 @@
 */
 
 Route::get('/weather', 'WeatherController@cityCollection');
-Route::get('/weatherss', 'WeatherController@index');
+Route::get('/weatherss', 'WeatherController@local');
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
