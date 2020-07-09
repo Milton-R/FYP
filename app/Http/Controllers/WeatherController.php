@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WeatherSuggestion;
 
 class WeatherController extends Controller
 {
@@ -16,12 +18,10 @@ class WeatherController extends Controller
         $city = User::distinct()->get('city');
         foreach ($city as $place ){
            $advice = WeatherController::local($place->city);
-            //echo($place->);
             $user_email = User::where('city',$place->city)->get('email');
             foreach ($user_email as $mail){
-                echo($mail->email);
-                echo ($advice);
 
+                Mail::to($mail->email)->send(new WeatherSuggestion($advice));
 
             }
         }
@@ -52,6 +52,7 @@ class WeatherController extends Controller
         if($counter>=3){
             return 'its gone rain this weak no need to water your plants';}
             else{
+
                 return 'its not going to rain so you better water your plant';
         }
 
@@ -59,6 +60,7 @@ class WeatherController extends Controller
     }
 
     public function local($place){
+
         $loc =new Client;
         $loccode= $loc ->request('GET', 'https://www.metaweather.com/api/location/search/?query='. $place .'');
         $locbod=$loccode->getBody();
@@ -67,6 +69,6 @@ class WeatherController extends Controller
 
         $advice=WeatherController::index($woeid);
 
-        echo $advice;
+        return($advice);
     }
 }
