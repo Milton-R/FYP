@@ -17,13 +17,13 @@
                             <div class="card">
                                 <a href="/locations/{{$location->id}}" >
                                 <div class="card-header">
-                                    {{$location->name}}
+                                  <p>Location name: {{$location->name}}</p>
                                 </div>
-                                </a>
 
                                 <div class="card-body">
-                                    <img src="/uploads/location/{{$location->image}}" alt="" style="width:150px; height:150px; float:left;" >
-                                    <span>  {{$location->name}} </span>
+
+                                    <img src="/storage/location/{{$location->picture}}" alt="" style="width:150px; height:150px; float:left;" >
+
                                     <span>  {{$location->plantType}} </span>
                                     <span>  {{$location->created_at}} </span>
 
@@ -32,6 +32,7 @@
                             </div>
                         </div>
                     </div>
+                </a>
             </form>
         @endforeach
     </div>

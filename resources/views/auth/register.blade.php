@@ -40,18 +40,28 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
+                            <label for="postcode" class="col-md-4 col-form-label text-md-right">{{ __('postcode') }}</label>
 
                             <div class="col-md-6">
-                                <input id="city" type="city" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" required autocomplete="city">
+                                <input id="postcode" type="text" class="form-control @error('postcode') is-invalid @enderror" name="postcode" value="{{ old('postcode') }}" required autocomplete="postcode">
 
-                                @error('city')
+                                @error('postcode')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
+
+                        <button type="button" id="geocode" >Try it</button>
+                        <div class="form-group row">
+                            <label for="coor" class="col-md-4 col-form-label text-md-right">{{ __('coor') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="coor" type="text" class="form-control" name="coor" value="{{ old('coor') }}" required autocomplete="coor">
+                            </div>
+                        </div>
+
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -71,7 +81,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+
                             </div>
                         </div>
 
@@ -88,4 +98,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $("#postcode").change(function(){
+            $.ajaxSetup({
+                headers:
+                    { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+            });
+
+            var txt = $("#postcode").val();
+            $("#coor").empty();
+            $.post("/geocode", {sick: txt}, function(result){
+                $("#coor").val(result.replace(/"/g,""));
+            });
+            });
+    });
+</script>
 @endsection

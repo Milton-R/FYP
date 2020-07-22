@@ -13,11 +13,12 @@ use PHPUnit\Util\PHP\AbstractPhpProcess;
 class LocationController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
 
         $user_id = Auth::id();
         $locations = User::find($user_id)->locations;
-        return view('location.index' , compact('locations'));
+        return view('location.index', compact('locations'));
 
     }
 
@@ -34,56 +35,63 @@ class LocationController extends Controller
             'created_at' => 'required'
         ]);
 
-        if ($fileNameWithExt = $request->file('picture')->getClientOriginalName()){
-        $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-        $locationimage = $request->file('picture')->getClientOriginalExtension();
-        $imageNameToStore = $filename . '_' . time() . '.' . $locationimage;
-        $path = $request ->file('picture')->storeAs('public/location', $imageNameToStore);
-    }
+        if ($fileNameWithExt = $request->file('picture')->getClientOriginalName()) {
+            $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $locationimage = $request->file('picture')->getClientOriginalExtension();
+            $imageNameToStore = $filename . '_' . time() . '.' . $locationimage;
+            $path = $request->file('picture')->storeAs('public/location', $imageNameToStore);
+        } else {
+            $imageNameToStore = 'noimage.jpg';
+        }
 
-           $location =new \App\Locations;
-           $location ->  user_id = $request->input('user_id');
-           $location ->  name = $request->input('name');
-           $location ->  plantType = $request->input('plantType');
-           $location ->  otherType = $request->input('otherType');
-           $location ->  picture = $imageNameToStore;
-           $location ->  notes = $request->input('notes');
-           $location ->  created_at = $request->input('created_at');
-           $location -> save();
+        $location = new \App\Locations;
+        $location->user_id = $request->input('user_id');
+        $location->name = $request->input('name');
+        $location->plantType = $request->input('plantType');
+        $location->otherType = $request->input('otherType');
+        $location->picture = $imageNameToStore;
+        $location->notes = $request->input('notes');
+        $location->created_at = $request->input('created_at');
+        $location->save();
 
 
         return redirect('/locations');
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id);
-        $plants = $location -> plants;
-        return view('location.show' , compact('location', 'plants'));
+        $plants = $location->plants;
+        return view('location.show', compact('location', 'plants'));
     }
-    public function edit($id){
+
+    public function edit($id)
+    {
 
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id);
-        return view('location.edit' , compact('location'));
+        return view('location.edit', compact('location'));
 
     }
 
-    public function create(){
+    public function create()
+    {
 
         $user_id = Auth::id();
-        return view('location.create' , compact('user_id'));
+        return view('location.create', compact('user_id'));
     }
 
-    public function update($id){
+    public function update($id)
+    {
         $data = request()->validate([
             'user_id' => 'required',
-            'name' =>'required',
-            'plantType' =>'required_without:otherType',
-            'otherType' =>'nullable',
-            'picture' =>'nullable|image|mimes:jpeg,png',
-            'notes' =>'required',
+            'name' => 'required',
+            'plantType' => 'required_without:otherType',
+            'otherType' => 'nullable',
+            'picture' => 'nullable|image|mimes:jpeg,png',
+            'notes' => 'required',
             'created_at' => 'required'
         ]);
         $user_id = Auth::id();
@@ -94,47 +102,51 @@ class LocationController extends Controller
 
 
     }
-    public function destroy($id){
+
+    public function destroy($id)
+    {
 
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id)->delete();
-        return  redirect('/locations');
+        return redirect('/locations');
     }
 
 
-
-    public function location_create_plant($id){
+    public function location_create_plant($id)
+    {
 
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id);
-        return view('plant.create' , compact('location'));
+        return view('plant.create', compact('location'));
     }
 
-    public function location_store_plant(){
+    public function location_store_plant()
+    {
 
         $data = request()->validate([
-            'name' =>'required',
-            'amount' =>'required',
-            'plant_type' =>'required',
-            'picture' =>'nullable',
-            'notes' =>'required',
+            'name' => 'required',
+            'amount' => 'required',
+            'plant_type' => 'required',
+            'picture' => 'nullable',
+            'notes' => 'required',
             'planted_at' => 'required',
             'user_id' => 'required',
-            'locations_id' =>'required'
+            'locations_id' => 'required'
         ]);
 
-            Plants::create($data);
+        Plants::create($data);
 
         return redirect('/locations');
 
 
     }
 
-    public function location_delete_plant($id){
+    public function location_delete_plant($id)
+    {
 
         $user_id = Auth::id();
         $locationplant = User::find($user_id)->plants->find($id)->delete();
-        return  redirect('/locations');
+        return redirect('/locations');
     }
 
 

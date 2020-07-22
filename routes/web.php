@@ -15,13 +15,8 @@
 use App\Mail\WeatherSuggestion;
 use Illuminate\Support\Facades\Mail;
 
-Route::get('/weathersss', function () {
-    $advice= 'is gon rain';
-    Mail::to('test@email.com')->send(new WeatherSuggestion($advice));
 
-    return new WeatherSuggestion($advice);
-});
-
+Route::post('/geocode', 'geocodeController@geocode');
 Route::get('/weather', 'WeatherController@cityCollection');
 Route::get('/weatherss', 'WeatherController@local');
 Auth::routes();
