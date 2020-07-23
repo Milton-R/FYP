@@ -15,10 +15,10 @@ class WeatherController extends Controller
 
     public function cityCollection(){
 
-        $city = User::distinct()->get('city');
-        foreach ($city as $place ){
-           $advice = WeatherController::local($place->city);
-            $user_email = User::where('city',$place->city)->get('email');
+        $coor = User::distinct()->get('coor');
+        foreach ($coor as $place ){
+           $advice = WeatherController::local($place->coor);
+            $user_email = User::where('coor',$place->coor)->get('email');
             foreach ($user_email as $mail){
 
                 Mail::to($mail->email)->send(new WeatherSuggestion($advice));
@@ -62,7 +62,7 @@ class WeatherController extends Controller
     public function local($place){
 
         $loc =new Client;
-        $loccode= $loc ->request('GET', 'https://www.metaweather.com/api/location/search/?query='. $place .'');
+        $loccode= $loc ->request('GET', 'https://www.metaweather.com/api/location/search/?lattlong='. $place .'');
         $locbod=$loccode->getBody();
         $localss = json_decode($locbod, true);
         $woeid = $localss[0]['woeid'];
