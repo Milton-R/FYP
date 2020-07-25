@@ -1,4 +1,4 @@
-     @extends('layout')
+@extends('layouts.app')
 
 <form action="/action_page.php">
     <form>

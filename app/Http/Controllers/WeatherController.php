@@ -11,17 +11,38 @@ use App\Mail\WeatherSuggestion;
 
 class WeatherController extends Controller
 {
-    public $cities = array();
 
     public function cityCollection(){
 
         $coor = User::distinct()->get('coor');
         foreach ($coor as $place ){
-           $advice = WeatherController::local($place->coor);
-            $user_email = User::where('coor',$place->coor)->get('email');
-            foreach ($user_email as $mail){
 
-                Mail::to($mail->email)->send(new WeatherSuggestion($advice));
+           $advice = WeatherController::local($place->coor);
+            $users = User::where('coor',$place->coor)->get();
+            foreach ($users as $user){
+
+                $outplants = $user->plants()->where('localType',2)->get();
+
+                //$weatherdes= new WeatherSuggestion($advice);
+                $weatherdes= "its gone rain";
+
+               foreach ($outplants as $outplant){
+                   if ($weatherdes == "its gone rain this weak no need to water your plants"){
+                       if ($outplant->waterORnot == 1);
+                       {$outplant->update(['waterORnot'=> '2']);}
+
+                   }else
+                       $outplant->update(['waterORnot'=> '1']);
+               }
+
+               $weatherdes= new WeatherSuggestion($advice);
+
+
+
+
+
+
+               // Mail::to($mail->email)->send(new WeatherSuggestion($advice));
 
             }
         }
@@ -55,6 +76,12 @@ class WeatherController extends Controller
 
                 return 'its not going to rain so you better water your plant';
         }
+
+
+    }
+
+    public function plantWaterORnot($weartherDesision){
+
 
 
     }

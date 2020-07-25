@@ -30,8 +30,9 @@ class LocationController extends Controller
             'name' => 'required',
             'plantType' => 'required_without:otherType',
             'otherType' => 'nullable',
+            'locationType' => 'required',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,max:500',
-            'notes' => 'required',
+            'notes' => 'nullable',
             'created_at' => 'required'
         ]);
 
@@ -49,6 +50,7 @@ class LocationController extends Controller
         $location->name = $request->input('name');
         $location->plantType = $request->input('plantType');
         $location->otherType = $request->input('otherType');
+        $location->locationType = $request->input('locationType');
         $location->picture = $imageNameToStore;
         $location->notes = $request->input('notes');
         $location->created_at = $request->input('created_at');
@@ -131,7 +133,9 @@ class LocationController extends Controller
             'notes' => 'required',
             'planted_at' => 'required',
             'user_id' => 'required',
-            'locations_id' => 'required'
+            'locations_id' => 'required',
+            'localType'=>'required',
+            'waterOrnot'=>'nullable'
         ]);
 
         Plants::create($data);

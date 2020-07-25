@@ -19,12 +19,15 @@ class CreatePlantsTable extends Migration
             $table->integer('amount');
             $table->string('plant_type');
             $table->string('picture')->nullable();
-            $table->longText('notes');
+            $table->longText('notes')->nullable();
             $table->Date('planted_at');
             $table -> unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table -> unsignedBigInteger('locations_id')->index();
             $table->foreign('locations_id')->references('id')->on('locations');
+            $table->integer('waterOrnot');
+            $table->integer('localType');
+
         });
     }
 

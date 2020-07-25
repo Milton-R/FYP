@@ -21,7 +21,8 @@ class CreateLocationsTable extends Migration
             $table->string('plantType');
             $table->string('otherType')->nullable();
             $table->string('picture')->default('/uploads/default.jpg');
-            $table->longText('notes');
+            $table->longText('notes')->nullable();
+            $table ->integer('locationType');
             $table->Date('created_at');
             $table->Date('updated_at');
         });

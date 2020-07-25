@@ -1,5 +1,5 @@
-@extends('layout')
-
+@extends('layouts.app')
+@section('content')
 <form action="/location/store_plant" method="post">
     @csrf
 
@@ -7,6 +7,10 @@
     @error('user_id') <p style="color:red;">{{$message}}</p>@enderror
     <input type="hidden"  name='locations_id'  value={{ $location->id }} >
     @error('locations_id') <p style="color:red;">{{$message}}</p>@enderror
+    <input type="hidden"  name='localType'  value={{ $location->locationType}} >
+    @error('localType') <p style="color:red;">{{$message}}</p>@enderror
+    <input type="hidden"  name='waterOrnot'  value="1" >
+    @error('waterOrnot') <p style="color:red;">{{$message}}</p>@enderror
 
     <div class="form-group">
         <label for="picture">Example file input</label>
@@ -52,7 +56,13 @@
         @error('notes') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
+    <div class="form-group">
+        <label for="planted_at">how often does this need to be watered?</label>
+        <input type="date" class="form-control" id="DatePlantedf" name="planted_at">
+        @error('planted_at') <p style="color:#ff0000;">{{$message}}</p>@enderror
+    </div>
+
     <button type="submit"></button>
 
-
 </form>
+@endsection
