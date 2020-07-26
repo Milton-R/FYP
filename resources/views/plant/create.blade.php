@@ -56,10 +56,23 @@
         @error('notes') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
+
     <div class="form-group">
         <label for="planted_at">how often does this need to be watered?</label>
-        <input type="date" class="form-control" id="DatePlantedf" name="planted_at">
-        @error('planted_at') <p style="color:#ff0000;">{{$message}}</p>@enderror
+        <input type="date" class="form-control" id="waterReminder" name="waterReminder">
+        @error('waterReminder') <p style="color:#ff0000;">{{$message}}</p>@enderror
+    </div>
+
+    <div class="form-group">
+        <label for="repetions">how often does this plant need to be watered?</label>
+        <select class="form-control" name="repetions">
+            <option> </option>
+            <option value="1" >every 3 days</option>
+            <option value="2">weekly</option>
+            <option value="3">every 2 week</option>
+            <option value="4">Monthly</option>
+        </select>
+        @error('repetions') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
     <button type="submit"></button>

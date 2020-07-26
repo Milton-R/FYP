@@ -27,6 +27,9 @@ class CreatePlantsTable extends Migration
             $table->foreign('locations_id')->references('id')->on('locations');
             $table->integer('waterOrnot');
             $table->integer('localType');
+            $table->Date('waterReminder');
+            $table->integer('repetions');
+
 
         });
     }
