@@ -1,27 +1,54 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Console\Commands;
 
-
-use App\User;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\WeatherController;
 use App\Mail\WeatherAdvice;
+use App\User;
 use Carbon\Carbon;
-use phpDocumentor\Reflection\Types\Collection;
+use GuzzleHttp\Client;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
-class WeatherController extends Controller
+class WeatherSuggestions extends Command
 {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'command:WeatherSuggestions';
 
-    public function cityCollection()
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
     {
         $datetoday = Carbon::today();
 
         $coor = User::distinct()->get('coor');
         foreach ($coor as $place) {
 
-            $advice = WeatherController::local($place->coor);
+            $advice = WeatherSuggestions::local($place->coor);
             $users = User::where('coor', $place->coor)->get();
             foreach ($users as $user) {
 
@@ -33,7 +60,7 @@ class WeatherController extends Controller
 
 
                     $daterange = date_diff($datetoday, $outplantdate);
-                    echo $daterange->format('%a days');
+
                     if ($daterange->days <= 4) {
                         if ($advice == "Raining this week!") {
 
@@ -41,23 +68,23 @@ class WeatherController extends Controller
 
                                 $outplant->update(['waterOrnot' => '2']);
 
-
                             }
-
 
                         } else
                             $outplant->update(['waterOrnot' => '1']);
                     }
-
                 }
 
+                if($advice=='Raining this week!'){
 
-                Mail::to($user->email)->send(new WeatherAdvice($advice));
+                    Mail::to($user->email)->send(new WeatherAdvice($advice));
+
+                }else{Mail::to($user->email)->send(new Norain($advice));}
+
 
             }
         }
     }
-
 
     public function index($woeid)
     {
@@ -100,8 +127,9 @@ class WeatherController extends Controller
         $localss = json_decode($locbod, true);
         $woeid = $localss[0]['woeid'];
 
-        $advice = WeatherController::index($woeid);
+        $advice = WeatherSuggestions::index($woeid);
 
         return ($advice);
     }
+
 }

@@ -1,16 +1,45 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Console\Commands;
 
-use App\Mail\WeatherAdvice;
+use App\Http\Controllers\WateringController;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
-class WateringController extends Controller
+class WateringReminder extends Command
 {
-    public function waterReminder()
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'command:WateringReminder';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
     {
         $datetoday = Carbon::today();
         $systemUsers = User::all();
@@ -28,7 +57,7 @@ class WateringController extends Controller
 
                     $plantToWaterdate = Carbon::create($plantToWater->waterReminder);
 
-                    $updatedReminderDate = WateringController::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
+                    $updatedReminderDate = WateringReminder::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
 
                     $plantToWater->update(['waterReminder' => $updatedReminderDate->toDateString(), 'waterOrnot' => '1',]);
                     echo $plantToWater , 'delay';
@@ -37,11 +66,11 @@ class WateringController extends Controller
 
                     $plantToWaterdate = Carbon::create($plantToWater->waterReminder);
 
-                    $updatedReminderDate = WateringController::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
+                    $updatedReminderDate = WateringReminder::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
 
                     $plantToWater->update(['waterReminder' => $updatedReminderDate->toDateString()]);
 
-                    Mail::to($systemUser->email)->send(new WeatherAdvice($plantToWater));
+                    Mail::to($systemUser->email)->send(new \App\Mail\WateringReminder($plantToWater));
 
                 }
 
@@ -50,15 +79,15 @@ class WateringController extends Controller
 
 
         }
+
     }
 
-
-    public function reminderFrequencing($waterReminderDate, $repetionfreq)
+        public function reminderFrequencing($waterReminderDate, $repetionfreq)
     {
 
         switch ($repetionfreq) {
             case 1:
-               $newdate = $waterReminderDate->addDay(3); ;
+                $newdate = $waterReminderDate->addDay(3); ;
                 return  $newdate;
                 break;
             case 2:
@@ -77,4 +106,9 @@ class WateringController extends Controller
         }
 
     }
+
+
+
+
+
 }

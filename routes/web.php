@@ -12,7 +12,7 @@
 */
 
 
-use App\Mail\WeatherSuggestion;
+use App\Mail\WeatherAdvice;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/waterrem', 'WateringController@waterReminder');

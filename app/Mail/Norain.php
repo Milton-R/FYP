@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WeatherSuggestion extends Mailable
+class Norain extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,12 +16,9 @@ class WeatherSuggestion extends Mailable
      *
      * @return void
      */
-
-    public $advice;
-    public function __construct($advice)
+    public function __construct()
     {
-      $this->advice = $advice;
-
+        //
     }
 
     /**
@@ -31,10 +28,6 @@ class WeatherSuggestion extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.weather')
-        ->with([
-        'advice' => $this->advice,
-
-    ]);
+        return $this->view('view.name');
     }
 }
