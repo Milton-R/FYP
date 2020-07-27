@@ -15,7 +15,7 @@
 use App\Mail\WeatherSuggestion;
 use Illuminate\Support\Facades\Mail;
 
-
+Route::get('/waterrem', 'WateringController@waterReminder');
 Route::post('/geocode', 'geocodeController@geocode');
 Route::get('/weather', 'WeatherController@cityCollection');
 Route::get('/weatherss', 'WeatherController@local');

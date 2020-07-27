@@ -2,7 +2,8 @@
 # Introduction
 
 The body of your message.
-Water to be planted today: {{$plantToWater}}
+Advice for today: {{$p}}
+
 
 @component('mail::button', ['url' => ''])
 Button Text
