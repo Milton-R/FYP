@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WateringReminder;
 use App\Mail\WeatherAdvice;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use test\Mockery\HasUnknownClassAsTypeHintOnMethod;
 
 class WateringController extends Controller
 {
@@ -24,11 +26,10 @@ class WateringController extends Controller
                 $daterange = date_diff($datetoday, $plantdate);
 
 
-                if ($daterange->days == 0 & $plantToWater->waterOrnot == 2) {
+                if ( $plantToWater->waterOrnot == 2) {
 
-                    $plantToWaterdate = Carbon::create($plantToWater->waterReminder);
-
-                    $updatedReminderDate = WateringController::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
+                    $lastWaterdate = Carbon::create($plantToWater->lastWatered);
+                    $updatedReminderDate = WateringController::reminderFrequencing($lastWaterdate, $plantToWater->repetions);
 
                     $plantToWater->update(['waterReminder' => $updatedReminderDate->toDateString(), 'waterOrnot' => '1',]);
                     echo $plantToWater , 'delay';
@@ -36,12 +37,11 @@ class WateringController extends Controller
                 } elseif ($daterange->days == 0 & $plantToWater->waterOrnot == 1) {
 
                     $plantToWaterdate = Carbon::create($plantToWater->waterReminder);
+                    $newdate = $plantToWaterdate->addDay($plantToWater->repetions);
 
-                    $updatedReminderDate = WateringController::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
+                    $plantToWater->update(['lastWatered'=>$datetoday->toDateString(),'waterReminder' => $newdate->toDateString()]);
 
-                    $plantToWater->update(['waterReminder' => $updatedReminderDate->toDateString()]);
-
-                    Mail::to($systemUser->email)->send(new WeatherAdvice($plantToWater));
+                    Mail::to($systemUser->email)->send(new WateringReminder($plantToWater));
 
                 }
 
@@ -53,27 +53,40 @@ class WateringController extends Controller
     }
 
 
-    public function reminderFrequencing($waterReminderDate, $repetionfreq)
+    public function reminderFrequencing($lastwateredDate, $repetionfreq)
     {
+        $datetoday = Carbon::now();
 
         switch ($repetionfreq) {
             case 1:
-               $newdate = $waterReminderDate->addDay(3); ;
-                return  $newdate;
+
+                $daydifference = date_diff($lastwateredDate,$datetoday);
+                if($daydifference->days > 0){
+                    $newdate = $datetoday;
+                    return  $newdate;
+                }else {
+                    $newdate = $lastwateredDate->addDay();
+                    return $newdate;
+                }
                 break;
             case 2:
-                $newdate = $waterReminderDate->addWeek();
-                return  $newdate;
+                $daydifference = date_diff($lastwateredDate,$datetoday);
+                if($daydifference->days >=3){
+                    $newdate = $datetoday;
+                    return  $newdate;
+                }else{     $newdate = $lastwateredDate->addDay(3);
+                    return  $newdate;}
                 break;
             case 3:
-                $newdate = $waterReminderDate->addWeek(2);
-                return  $newdate;
-                break;
-            case 4;
-                $newdate = $waterReminderDate->addMonth();
-                return  $newdate;
-                break;
 
+                $daydifference = date_diff($lastwateredDate,$datetoday);
+                if($daydifference->days >= 7){
+                    $newdate = $datetoday;
+                    return  $newdate;
+                }else{$newdate = $lastwateredDate->addDay(7);
+                    return  $newdate;}
+
+                break;
         }
 
     }

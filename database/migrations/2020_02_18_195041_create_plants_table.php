@@ -29,7 +29,8 @@ class CreatePlantsTable extends Migration
             $table->integer('localType');
             $table->Date('waterReminder');
             $table->integer('repetions');
-
+            $table->Date('lastWatered')->nullable();
+            $table->String('confirmedDelay');
 
         });
     }

@@ -67,9 +67,7 @@ class WeatherSuggestions extends Command
                             if ($outplant->waterOrnot == 1) {
 
                                 $outplant->update(['waterOrnot' => '2']);
-
                             }
-
                         } else
                             $outplant->update(['waterOrnot' => '1']);
                     }
@@ -79,8 +77,9 @@ class WeatherSuggestions extends Command
 
                     Mail::to($user->email)->send(new WeatherAdvice($advice));
 
-                }else{Mail::to($user->email)->send(new Norain($advice));}
-
+                }elseif($advice=='Raining this week!') {
+                    Mail::to($user->email)->send(new WeatherAdvice($advice));
+                }
 
             }
         }

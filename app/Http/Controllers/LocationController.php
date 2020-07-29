@@ -137,7 +137,9 @@ class LocationController extends Controller
             'localType'=>'required',
             'waterOrnot'=>'nullable',
              'waterReminder'=>'required',
-            'repetions'=> 'required'
+            'repetions'=> 'required',
+            'confirmedDelay'=>'required',
+            'lastWatered'=>'nullable',
         ]);
 
         Plants::create($data);

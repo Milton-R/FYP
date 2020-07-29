@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/waterrem', 'WateringController@waterReminder');
 Route::post('/geocode', 'geocodeController@geocode');
 Route::get('/weather', 'WeatherController@cityCollection');
-Route::get('/weatherss', 'WeatherController@local');
+Route::get('/wea', 'WeatherController@index');
 Auth::routes();
 
 Route::get('/', 'HomeController@index');

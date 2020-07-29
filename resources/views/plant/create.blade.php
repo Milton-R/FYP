@@ -11,6 +11,8 @@
     @error('localType') <p style="color:red;">{{$message}}</p>@enderror
     <input type="hidden"  name='waterOrnot'  value="1" >
     @error('waterOrnot') <p style="color:red;">{{$message}}</p>@enderror
+    <input type="hidden"  name='confirmedDelay'  value="NO" >
+    @error('confirmedDelay') <p style="color:red;">{{$message}}</p>@enderror
 
     <div class="form-group">
         <label for="picture">Example file input</label>
@@ -67,10 +69,9 @@
         <label for="repetions">how often does this plant need to be watered?</label>
         <select class="form-control" name="repetions">
             <option> </option>
-            <option value="1" >every 3 days</option>
-            <option value="2">weekly</option>
-            <option value="3">every 2 week</option>
-            <option value="4">Monthly</option>
+            <option value="1" >Daily</option>
+            <option value="3">Every 3 Days</option>
+            <option value="7">Every 7 Days</option>
         </select>
         @error('repetions') <p style="color:red;">{{$message}}</p>@enderror
     </div>
