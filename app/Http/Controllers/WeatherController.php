@@ -58,6 +58,7 @@ class WeatherController extends Controller
                         Mail::to($user->email)->send(new Norain());
                     }
 
+
                 }
 
             }

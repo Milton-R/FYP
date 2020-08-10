@@ -20,8 +20,8 @@ class PlantController extends Controller
 
     public function show($id){
         $user_id = Auth::id();
-        $location = User::find($user_id)->locations->find($id);
-        return view('plant.show' , compact('location'));
+        $plant = User::find($user_id)->plants->find($id);
+        return view('plant.show' , compact('plant'));
     }
 
     public function edit($id){

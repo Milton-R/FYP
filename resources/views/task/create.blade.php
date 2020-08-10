@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <div style=" width:50%; margin-left:25%">
+
+        @if (Session::has('message'))
+            <div class="alert alert-success" id="message">{{ Session::get('message') }}</div>
+        @endif
         <form action="/tasks" method="post">
             @csrf
 
@@ -43,5 +47,9 @@
             </div>
 
         </form></div>
-
+    <script>
+        $(document).ready(function() {
+            $("#message").delay(7000)
+                .fadeOut('slow');
+        });</script>
 @endsection

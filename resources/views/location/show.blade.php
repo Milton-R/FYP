@@ -19,7 +19,7 @@
             <form action="/locations_delete_plant/{{$plant->id}}" method="post">
                 @method('DELETE')
                 @csrf
-            <a href="/plant/{{$plant->id}}">
+            <a href="/plants/{{$plant->id}}">
                 <div class="row justify-content-lg-start">
                     <div class="col-md-8">
                         <div class="card">

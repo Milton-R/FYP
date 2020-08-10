@@ -1,43 +1,8 @@
 @extends('layouts.app')
-<style>
-    .dropbtn {
-        background-color: #4CAF50;
-        color: white;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-    }
 
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
-
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown-content a:hover {background-color: #ddd;}
-
-    .dropdown:hover .dropdown-content {display: block;}
-
-    .dropdown:hover .dropbtn {background-color: #3e8e41;}
-</style>
 @section('content')
     <div style=" width:50%; margin-left:25%">
-    <div class="container" >
+        <div id="ako" class="container">
 
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -56,57 +21,55 @@
                     </div>
                 </div>
             </div>
+
+            <div id="weatherwidget" class="col-12"></div>
         </div>
 
-
-        <div style="margin:10px" id="openweathermap-widget-1"></div>
-        <script src='//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js'></script><script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 1,cityid: '2643743',appid: '66558235d392bd37f58293db6dd6f887',units: 'metric',containerid: 'openweathermap-widget-1',  });  (function() {var script = document.createElement('script');script.async = true;script.charset = "utf-8";script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>
-
-
-            <div class="row">
+        <div id="taskBars">
+            <div id="todorow" class="row">
                 <div class="card col-4" style=" margin-top:10%; ">
                     <div class="card-header">
                         <h3>To-do</h3>
                         <a class="btn btn-primary" href="/tasks/create" role="button">add new</a>
                     </div>
-
                     <ul class="list-group list-group-flush">
                         @foreach($todo_tasks as $task)
-                        <li class="list-group-item">
-                            <div class="card-body">
+                            <li class="list-group-item">
+                                <div class="card-body">
 
-                                <p style="display: inline-flex">{{$task->title}}</p>
+                                    <p style="display: inline-flex">{{$task->title}}</p>
 
-                                <div class="dropdown">
-                                    <button class="dropbtn">Dropdown</button>
-                                    <div class="dropdown-content">
-                                        <div>
-                                            <form action="tasks/{{$task->id}}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button  style=" display: inline" onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger" >
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </div>
+                                    <div class="dropdown">
+                                        <button class="dropbtn">Dropdown</button>
+                                        <div class="dropdown-content">
+                                            <div>
+                                                <form class="deletetask" action="tasks/{{$task->id}}" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button style=" display: inline" type="submit"
+                                                            class="btn btn-danger">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
 
-                                        <div>
-                                            <form action="done_tasks/{{$task->id}}" method="post">
-                                                @method('PUT')
-                                                @csrf
-                                                <input type="hidden" name="status" value="2">
-                                                <button  style=" display: inline" type="submit" class="btn btn" >
-                                                    Doing
-                                                </button>
+                                            <div>
+                                                <form class="doingstatus" action="doing_tasks/{{$task->id}}"
+                                                      method="post">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="2">
+                                                    <button style=" display: inline" type="submit" class="btn btn">
+                                                        Doing
+                                                    </button>
 
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                            @endforeach
-
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -115,50 +78,53 @@
                         <h3>Doing:</h3>
                     </div>
                     <ul class="list-group list-group-flush">
-                    @foreach($doing_tasks as $task)
-                        <li class="list-group-item">
-                            <div class="card-body">
-                                <p style="display: inline-flex">{{$task->title}}</p>
-                                <div class="dropdown">
-                                    <button class="dropbtn">Dropdown</button>
-                                    <div class="dropdown-content">
-                                        <div>
-                                            <form action="tasks/{{$task->id}}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button  style=" display: inline" type="submit" class="btn btn-danger" >
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </div>
+                        @foreach($doing_tasks as $task)
+                            <li class="list-group-item">
+                                <div class="card-body">
+                                    <p style="display: inline-flex">{{$task->title}}</p>
+                                    <div class="dropdown">
+                                        <button class="dropbtn">Dropdown</button>
+                                        <div class="dropdown-content">
+                                            <div>
+                                                <form class="deletetask" action="tasks/{{$task->id}}" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button style=" display: inline" type="submit"
+                                                            class="btn btn-danger">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
 
-                                        <div>
-                                            <form action="todo_tasks/{{$task->id}}" method="post">
-                                                @method('PUT')
-                                                @csrf
-                                                <input type="hidden" name="status" value="2">
-                                                <button  style=" display: inline" type="submit" class="btn btn" >
-                                                    Todo
-                                                </button>
+                                            <div>
+                                                <form id="todostatus" action="todo_tasks/{{$task->id}}" method="post">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <p type="hidden" class="taskid" value="{{$task->id}}"></p>
+                                                    <input type="hidden" name="status" value="1">
+                                                    <button style=" display: inline" type="submit" class="btn btn">
+                                                        Todo
+                                                    </button>
+                                                </form>
+                                            </div>
 
-                                            </form>
-                                        </div>
+                                            <div>
+                                                <form class="donestatus" action="done_tasks/{{$task->id}}"
+                                                      method="post">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <p type="hidden" class="taskid" value="{{$task->id}}"></p>
+                                                    <input type="hidden" name="status" value="3">
+                                                    <button style=" display: inline" type="submit" class="btn btn">
+                                                        Done
+                                                    </button>
 
-                                        <div>
-                                            <form action="done_tasks/{{$task->id}}" method="post">
-                                                @method('PUT')
-                                                @csrf
-                                                <input type="hidden" name="status" value="3">
-                                                <button  style=" display: inline" type="submit" class="btn btn" >
-                                                    Done
-                                                </button>
-
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -177,21 +143,24 @@
                                         <button class="dropbtn">Dropdown</button>
                                         <div class="dropdown-content">
                                             <div>
-                                                <form action="tasks/{{$task->id}}" method="post">
+                                                <form class="deletetask" action="tasks/{{$task->id}}" method="post">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button  style=" display: inline" type="submit" class="btn btn-danger" >
+                                                    <button style=" display: inline" type="submit"
+                                                            class="btn btn-danger">
                                                         Delete
                                                     </button>
                                                 </form>
                                             </div>
 
                                             <div>
-                                                <form action="doing_tasks/{{$task->id}}" method="post">
+                                                <form class="doingstatus" action="doing_tasks/{{$task->id}}"
+                                                      method="post">
                                                     @method('PUT')
                                                     @csrf
+
                                                     <input type="hidden" name="status" value="2">
-                                                    <button  style=" display: inline" type="submit" class="btn btn" >
+                                                    <button style=" display: inline" type="submit" class="btn btn">
                                                         Doing
                                                     </button>
 
@@ -206,8 +175,20 @@
                     </ul>
                 </div>
             </div>
+        </div>
     </div>
-</div>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $.get("/weatherhome", function (data) {
+                $("#weatherwidget").empty();
+                $("#weatherwidget").append(data['html']);
+            });
+        });
+    </script>
+
 
 
 @endsection

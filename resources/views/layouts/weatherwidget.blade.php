@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-    <!-- Styles -->
-    <style></style>
-</head>
-<body>
-
-</body>
-</html>
-
-
-
-<div id="weatherWidget">
-    <div class="row justify-content-center">
+<div class="row justify-content-center">
         @foreach($weather as $forcast)
-            <div class="card col-8">
+            <div class="card col-2">
                 <img class="card-img-top" src="https://www.metaweather.com//static/img/weather/{{$forcast->weather_state_abbr}}.svg" alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title">{{$forcast->applicable_date}} </h4>
@@ -36,5 +15,4 @@
             </div>
 
         @endforeach
-    </div>
 </div>
