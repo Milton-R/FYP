@@ -85,20 +85,44 @@ class LocationController extends Controller
         return view('location.create', compact('user_id'));
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        $data = request()->validate([
+        $this->validate($request, [
             'user_id' => 'required',
             'name' => 'required',
             'plantType' => 'required_without:otherType',
             'otherType' => 'nullable',
-            'picture' => 'nullable|image|mimes:jpeg,png',
-            'notes' => 'required',
+            'locationType' => 'required',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,max:500',
+            'notes' => 'nullable',
             'created_at' => 'required'
         ]);
+
+
+        if ($request->hasFile('picture')) {
+            $fileNameWithExt = $request->file('picture')->getClientOriginalName();
+            $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $locationimage = $request->file('picture')->getClientOriginalExtension();
+            $imageNameToStore = $filename . '_' . time() . '.' . $locationimage;
+            $path = $request->file('picture')->storeAs('public/location', $imageNameToStore);
+        }
+
         $user_id = Auth::id();
-        $locations = User::find($user_id)->locations->find($id);
-        $locations->update($data);
+        $location = User::find($user_id)->locations->find($id);
+        $location->user_id = $request->input('user_id');
+        $location->name = $request->input('name');
+        $location->plantType = $request->input('plantType');
+        $location->otherType = $request->input('otherType');
+        $location->locationType = $request->input('locationType');
+        if ($request->hasFile('picture')) {
+            $location->picture = $imageNameToStore;
+        }
+
+        $location->notes = $request->input('notes');
+        $location->created_at = $request->input('created_at');
+        $location->save();
+
+
 
         return redirect('/locations');
 

@@ -1,6 +1,7 @@
-@extends('layout')
-
-<form action="/location/store_plant" method="post">
+@extends('layouts.app')
+@section('content')
+<form action="/plant/{{$location->id}}" method="post" enctype="multipart/form-data">
+    @method('PUT')
     @csrf
 
     <input type="hidden"  name='user_id'  value={{ Auth::user()->id }} >
@@ -10,38 +11,39 @@
     @error('locations_id') <p style="color:red;">{{$message}}</p>@enderror
 
     <div class="form-group">
-        <label for="picture">Example file input</label>
+        <label for="picture">Photo of this plant *</label>
+        <img src="/storage/location/{{$location->picture}}" alt="" style="width:150px; height:150px; float:left;">
         <input type="file" class="form-control-file" id="plant_picture" value="{{$plant->picture}}" name="picture">
         @error('picture') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
     <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">What is the name of this plant? *</label>
         <input type="text" class="form-control"  value="{{$plant->name}}" name="name">
         @error('name') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
     <div class="form-group">
-        <label for="amount">Amount</label>
+        <label for="amount">Wow many plants of this kind have you planted on this location? *</label>
         <input type="text" class="form-control" value="{{$plant->amount}}" name="amount">
         @error('amount') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
     <div class="form-group">
-        <label for="plant_type">Plant Type</label>
-        <select class="form-control" name="plant_type">
-            <option> </option>
-            <option>Flower</option>
-            <option>Vegetable</option>
-            <option>Tree</option>
-            <option>Herb</option>
-            <option>Shrubs</option>
+        <label for="plantType">What type of plants will you be keeping in this Location? *</label>
+        <select class="form-control" name="plantType">
+            <option></option>
+            <option {{old('plantType',$location->plantType)=="Flower"? 'selected':''}}>Flower</option>
+            <option {{old('plantType',$location->plantType)=="Vegetable"? 'selected':''}}>Vegetable</option>
+            <option {{old('plantType',$location->plantType)=="Tree"? 'selected':''}}>Tree</option>
+            <option {{old('plantType',$location->plantType)=="Herb"? 'selected':''}}>Herb</option>
+            <option {{old('plantType',$location->plantType)=="Shrubs"? 'selected':''}}>Shrubs</option>
         </select>
         @error('plant_type') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
     <div class="form-group">
-        <label for="planted_at">date Planted</label>
+        <label for="planted_at">When did you plant this plant in this Location? *</label>
         <input type="date" class="form-control" id="DatePlantedf" value="{{$plant->plant_at}}" name="planted_at">
         @error('planted_at') <p style="color:red;">{{$message}}</p>@enderror
     </div>
@@ -52,6 +54,7 @@
         @error('notes') <p style="color:red;">{{$message}}</p>@enderror
     </div>
 
-    <button type="submit"></button>
+    <button class="btn-primary" type="submit">Update</button>
 
 </form>
+@endsection

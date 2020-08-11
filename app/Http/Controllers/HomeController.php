@@ -95,6 +95,18 @@ class HomeController extends Controller
     }
 
 
+    public function updatestatus(Request $request, $id){
+
+        $this->validate($request, [
+            'status' => 'required',
+        ]);
+        $user_id = Auth::id();
+        $tasks = User::find($user_id)->tasks->find($id);
+        $tasks->status = $request->input('status');
+        $tasks->save();
+
+    }
+
     public function update(Request $request, $id){
 
         $this->validate($request, [

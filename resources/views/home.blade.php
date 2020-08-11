@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <script>
+        $(document).ready(function () {
+            $.get("/weatherhome", function (data) {
+                $("#weatherwidget").empty();
+                $("#weatherwidget").append(data['html']);
+            });
+        });
+    </script>
     <div style=" width:50%; margin-left:25%">
         <div id="ako" class="container">
 
@@ -180,14 +188,7 @@
     </div>
 
 
-    <script>
-        $(document).ready(function () {
-            $.get("/weatherhome", function (data) {
-                $("#weatherwidget").empty();
-                $("#weatherwidget").append(data['html']);
-            });
-        });
-    </script>
+
 
 
 

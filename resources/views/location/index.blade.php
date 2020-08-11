@@ -11,28 +11,28 @@
                 @method('DELETE')
                 @csrf
 
-                    <div class="row justify-content-lg-start">
+                <div class="row justify-content-lg-start">
 
-                        <div class="col-md-8">
-                            <div class="card">
-                                <a href="/locations/{{$location->id}}" >
+                    <div class="col-md-8">
+                        <div class="card">
+                            <a href="/locations/{{$location->id}}">
                                 <div class="card-header">
-                                  <p>Location name: {{$location->name}}</p>
+                                    <p>Location name: {{$location->name}}</p>
                                 </div>
 
                                 <div class="card-body">
 
-                                    <img src="/storage/location/{{$location->picture}}" alt="" style="width:150px; height:150px; float:left;" >
+                                    <img src="/storage/location/{{$location->picture}}" alt=""
+                                         style="width:150px; height:150px; float:left;">
 
                                     <span>  {{$location->plantType}} </span>
                                     <span>  {{$location->created_at}} </span>
 
                                 </div>
-
-                            </div>
+                            </a>
                         </div>
                     </div>
-                </a>
+                </div>
             </form>
         @endforeach
     </div>

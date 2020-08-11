@@ -124,7 +124,7 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <footer class="col-12">
+        <footer class="container-fluid text-center">
             @include('layouts.footer')
         </footer>
     </div>

@@ -1,5 +1,11 @@
 @extends('layouts.app')
 @section('content')
+
+    <script>
+        $(document).ready(function() {
+            $("#message").delay(7000)
+                .fadeOut('slow');
+        });</script>
     <div style=" width:50%; margin-left:25%">
 
         @if (Session::has('message'))
@@ -47,9 +53,5 @@
             </div>
 
         </form></div>
-    <script>
-        $(document).ready(function() {
-            $("#message").delay(7000)
-                .fadeOut('slow');
-        });</script>
+
 @endsection
