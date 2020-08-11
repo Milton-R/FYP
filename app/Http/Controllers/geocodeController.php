@@ -22,7 +22,7 @@ class geocodeController extends Controller
 
 
 
-        return (json_encode($postcode));
+
         return(json_encode($coordinate));
 
 

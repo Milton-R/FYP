@@ -17,10 +17,9 @@ class WeatherAdvice extends Mailable
      * @return void
      */
 
-    public $advice;
-    public function __construct($advice)
+    public function __construct()
     {
-      $this->advice = $advice;
+
 
     }
 
@@ -32,9 +31,6 @@ class WeatherAdvice extends Mailable
     public function build()
     {
         return $this->markdown('emails.weather')
-        ->with([
-        'advice' => $this->advice,
-
-    ]);
+            ->subject("Weather Advice");
     }
 }

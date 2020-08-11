@@ -3,7 +3,7 @@
 
     <script>
         $(document).ready(function() {
-            $("#message").delay(7000)
+            $("#message").delay(5000)
                 .fadeOut('slow');
         });</script>
     <div style=" width:50%; margin-left:25%">

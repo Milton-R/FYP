@@ -36,7 +36,8 @@ class LocationController extends Controller
             'created_at' => 'required'
         ]);
 
-        if ($fileNameWithExt = $request->file('picture')->getClientOriginalName()) {
+        if ($request->hasFile('picture')) {
+            $fileNameWithExt = $request->file('picture')->getClientOriginalName();
             $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
             $locationimage = $request->file('picture')->getClientOriginalExtension();
             $imageNameToStore = $filename . '_' . time() . '.' . $locationimage;

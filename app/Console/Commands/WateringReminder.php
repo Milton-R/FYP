@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\WateringController;
+use App\Mail\wateringDelay;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -48,67 +49,81 @@ class WateringReminder extends Command
             $plantstowater = $systemUser->plants()->get();
 
             foreach ($plantstowater as $plantToWater) {
+
                 $plantdate = Carbon::create($plantToWater->waterReminder);
 
                 $daterange = date_diff($datetoday, $plantdate);
 
 
-                if ($daterange->days == 0 & $plantToWater->waterOrnot == 2) {
+                if ( $plantToWater->waterOrnot == 2) {
 
-                    $plantToWaterdate = Carbon::create($plantToWater->waterReminder);
+                    $plantLocation=$plantToWater->location;
+                    $lastWaterdate = Carbon::create($plantToWater->lastWatered);
 
-                    $updatedReminderDate = WateringReminder::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
+                    $updatedReminderDate = WateringReminder::reminderFrequencing($lastWaterdate, $plantToWater->repetions);
+
 
                     $plantToWater->update(['waterReminder' => $updatedReminderDate->toDateString(), 'waterOrnot' => '1',]);
-                    echo $plantToWater , 'delay';
+                    Mail::to($systemUser->email)->send(new wateringDelay($plantToWater,$plantLocation->name));
 
                 } elseif ($daterange->days == 0 & $plantToWater->waterOrnot == 1) {
 
+                    $plantLocation=$plantToWater->location;
+
                     $plantToWaterdate = Carbon::create($plantToWater->waterReminder);
+                    $newdate = $plantToWaterdate->addDay($plantToWater->repetions);
 
-                    $updatedReminderDate = WateringReminder::reminderFrequencing($plantToWaterdate, $plantToWater->repetions);
+                    $plantToWater->update(['lastWatered'=>$datetoday->toDateString(),'waterReminder' => $newdate->toDateString()]);
 
-                    $plantToWater->update(['waterReminder' => $updatedReminderDate->toDateString()]);
-
-                    Mail::to($systemUser->email)->send(new \App\Mail\WateringReminder($plantToWater));
+                    Mail::to($systemUser->email)->send(new \App\Mail\wateringDelay($plantToWater,$plantLocation->name));
 
                 }
+
+
 
 
             }
 
 
         }
-
     }
 
-        public function reminderFrequencing($waterReminderDate, $repetionfreq)
+
+    public function reminderFrequencing($lastwateredDate, $repetionfreq)
     {
+        $datetoday = Carbon::now();
 
         switch ($repetionfreq) {
             case 1:
-                $newdate = $waterReminderDate->addDay(3); ;
-                return  $newdate;
-                break;
-            case 2:
-                $newdate = $waterReminderDate->addWeek();
-                return  $newdate;
+
+                $daydifference = date_diff($lastwateredDate,$datetoday);
+                if($daydifference->days > 0){
+                    $newdate = $datetoday;
+                    return  $newdate;
+                }else {
+                    $newdate = $lastwateredDate->addDay();
+                    return $newdate;
+                }
                 break;
             case 3:
-                $newdate = $waterReminderDate->addWeek(2);
-                return  $newdate;
+                $daydifference = date_diff($lastwateredDate,$datetoday);
+                if($daydifference->days >=3){
+                    $newdate = $datetoday;
+                    return  $newdate;
+                }else{     $newdate = $lastwateredDate->addDay(3);
+                    return  $newdate;}
                 break;
-            case 4;
-                $newdate = $waterReminderDate->addMonth();
-                return  $newdate;
-                break;
+            case 7:
 
+                $daydifference = date_diff($lastwateredDate,$datetoday);
+                if($daydifference->days >= 7){
+                    $newdate = $datetoday;
+                    return  $newdate;
+                }else{$newdate = $lastwateredDate->addDay(7);
+                    return  $newdate;}
+
+                break;
         }
 
     }
-
-
-
-
-
 }

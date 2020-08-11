@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Norain extends Mailable
+class taskNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,9 +16,10 @@ class Norain extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $task;
+    public function __construct($task)
     {
-        //
+        $this->task=$task;
     }
 
     /**
@@ -28,7 +29,11 @@ class Norain extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.weatherNorain')
-            ->subject("Watering Reminder");
+        return $this->markdown('emails.TaskRemindereEmail')
+            ->subject("Watering Reminder")
+            ->with([
+                'task' => $this->task,
+
+            ]);
     }
 }

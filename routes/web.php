@@ -16,7 +16,7 @@ use App\Mail\WeatherAdvice;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/waterrem', 'WateringController@waterReminder');
-Route::get('/geocode', 'geocodeController@geocode');
+Route::post('/geocode', 'geocodeController@geocode');
 Route::get('/weather', 'WeatherController@cityCollection');
 Route::get('/wea', 'WeatherController@index');
 Auth::routes();
@@ -48,7 +48,7 @@ Route::get('/weatherhome', 'HomeController@weather');
 Route::get('/tasks', 'HomeController@getalltask');
 Route::get('/tasks/create', 'HomeController@create');
 Route::post('/tasks', 'HomeController@store');
-Route::get('/tasks/{plant_id}/edit', 'PlantController@edit');
+Route::get('/tasks/{task_id}/edit', 'HomeController@edit');
 Route::put('/tasks/{task_id}', 'HomeController@update');
 Route::put('/todo_tasks/{task_id}', 'HomeController@updatestatus');
 Route::put('/doing_tasks/{task_id}', 'HomeController@updatestatus');

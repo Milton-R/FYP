@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Norain extends Mailable
+class dry extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +28,7 @@ class Norain extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.weatherNorain')
-            ->subject("Watering Reminder");
+        return $this->markdown('emails.Weatherdry')
+            ->subject("Weather Advice");
     }
 }

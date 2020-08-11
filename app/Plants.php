@@ -14,14 +14,15 @@ class Plants extends Model
 
     protected $guarded = [];
 
+
     public $timestamps = false;
 
     public function location(){
 
-        return $this-> belongsTo('APP\Locations');
+        return $this-> belongsTo(Locations::class,'locations_id');
     }
     public function garden() {
-        return $this-> belongsTo('APP\User');
+        return $this-> belongsTo(User::class);
     }
 
 }

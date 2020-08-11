@@ -32,6 +32,7 @@ class WateringController extends Controller
                     $updatedReminderDate = WateringController::reminderFrequencing($lastWaterdate, $plantToWater->repetions);
 
                     $plantToWater->update(['waterReminder' => $updatedReminderDate->toDateString(), 'waterOrnot' => '1',]);
+                    Mail::to($systemUser->email)->send(new WateringReminder($plantToWater));
                     echo $plantToWater , 'delay';
 
                 } elseif ($daterange->days == 0 & $plantToWater->waterOrnot == 1) {

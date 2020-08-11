@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Mail\dry;
 use App\Mail\Norain;
 use App\User;
 use GuzzleHttp\Client;
@@ -50,12 +51,15 @@ class WeatherController extends Controller
 
                     if ($counter > 3) {
 
-                        Mail::to($user->email)->send(new WeatherAdvice($advice));
+                        Mail::to($user->email)->send(new WeatherAdvice());
 
 
 
                     } elseif ($counter < 3 ) {
                         Mail::to($user->email)->send(new Norain());
+
+                    }elseif ($counter < 0 ) {
+                     Mail::to($user->email)->send(new dry());
                     }
 
 

@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\WeatherController;
+use App\Mail\dry;
+use App\Mail\Norain;
 use App\Mail\WeatherAdvice;
 use App\User;
 use Carbon\Carbon;
@@ -54,40 +56,48 @@ class WeatherSuggestions extends Command
 
                 $outplants = $user->plants()->where('localType', 2)->get();
 
+                $counter = 0;
 
-                foreach ($outplants as $outplant) {
-                    $outplantdate = Carbon::create($outplant->waterReminder);
-
-
-                    $daterange = date_diff($datetoday, $outplantdate);
-
-                    if ($daterange->days <= 4) {
-                        if ($advice == "Raining this week!") {
-
-                            if ($outplant->waterOrnot == 1) {
-
-                                $outplant->update(['waterOrnot' => '2']);
-                            }
-                        } else
-                            $outplant->update(['waterOrnot' => '1']);
+                foreach ($advice as $forecast) {
+                    $day = $forecast->weather_state_name;
+                    if ($day === 'Heavy Rain' or $day === 'Light Rain' or $day === 'Showers') {
+                        $counter = $counter + 1;
                     }
+
                 }
 
-                if($advice=='Raining this week!'){
+                foreach ($outplants as $outplant) {
 
-                    Mail::to($user->email)->send(new WeatherAdvice($advice));
+                    $todayweather = $advice[0]->weather_state_name;
+                    if ($todayweather === 'Heavy Rain' or $todayweather === 'Light Rain' or $todayweather === 'Showers') {
+                        $outplant->update(['lastWatered' => $datetoday->toDateString(), 'waterOrnot' => '2']);
 
-                }elseif($advice=='Raining this week!') {
-                    Mail::to($user->email)->send(new WeatherAdvice($advice));
+                    } else {
+                        $outplant->update(['waterOrnot' => '1']);
+                    }
+
+                    if ($counter > 3) {
+
+                        Mail::to($user->email)->send(new WeatherAdvice());
+
+                    } elseif ($counter <= 3 && $counter >= 1 ) {
+                        Mail::to($user->email)->send(new Norain());
+
+                    }elseif ($counter == 0 ) {
+                        Mail::to($user->email)->send(new dry());
+                    }
+
+
                 }
 
             }
+
         }
     }
 
+
     public function index($woeid)
     {
-
         $client = new Client();
         $response = $client->request('GET', 'https://www.metaweather.com/api/location/' . $woeid . '/');
         $statusCode = $response->getStatusCode();
@@ -95,25 +105,7 @@ class WeatherSuggestions extends Command
         $json = json_decode($array);
         $d = collect($json->consolidated_weather);
 
-
-        $counter = 0;
-
-        foreach ($d as $forecast) {
-            $day = $forecast->weather_state_name;
-            if ($day === 'Heavy Rain' or $day === 'Light Rain' or $day === 'Showers') {
-                $counter = $counter + 1;
-            }
-
-        }
-
-        if ($counter >= 3) {
-            return 'Raining this week!';
-        } else {
-
-            return 'Mostly Dry this week!';
-        }
-
-
+        return $d;
     }
 
 

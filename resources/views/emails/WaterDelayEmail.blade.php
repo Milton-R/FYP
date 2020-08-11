@@ -4,7 +4,7 @@
     <tr>
         <th><h3>Plant location:</h3></th>
         <th><h3>Plant To be watered:</h3></th>
-        <th><h3>Date to water:</h3></th>
+        <th><h3>Last watered day:</h3></th>
         <th><h3>Next watering date:</h3></th>
     </tr>
     <tr>

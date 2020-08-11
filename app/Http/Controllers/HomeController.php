@@ -107,15 +107,30 @@ class HomeController extends Controller
 
     }
 
+    public function edit($id)
+    {
+
+        $user_id = Auth::id();
+        $task = User::find($user_id)->tasks->find($id);
+        return view('task.edit', compact('task'));
+    }
+
     public function update(Request $request, $id){
 
         $this->validate($request, [
-            'status' => 'required',
+            'title' =>'required',
+            'description' =>'required',
+            'importance' =>'required',
+            'due_Date' =>'required',
+            'user_id' => 'required'
         ]);
         $user_id = Auth::id();
         $tasks = User::find($user_id)->tasks->find($id);
         $tasks->status = $request->input('status');
         $tasks->save();
+
+        Session::flash('message', "Your Tasks has been updated and we will send you an email reminding you when its due. ");
+        return Redirect::back();
 
     }
 

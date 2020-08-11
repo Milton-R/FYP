@@ -19,8 +19,7 @@ class CreateLocationsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('name');
             $table->string('plantType');
-            $table->string('otherType')->nullable();
-            $table->string('picture')->default('/uploads/default.jpg');
+            $table->string('picture')->nullable();
             $table->longText('notes')->nullable();
             $table ->integer('locationType');
             $table->Date('created_at');

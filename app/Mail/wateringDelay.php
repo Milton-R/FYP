@@ -16,9 +16,12 @@ class wateringDelay extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $plantToWater;
+    public $plantLocation;
+    public function __construct($plantToWater,$plantLocation)
     {
-        //
+        $this->plantToWater=$plantToWater;
+        $this->plantLocation=$plantLocation;
     }
 
     /**
@@ -28,6 +31,12 @@ class wateringDelay extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->markdown('emails.WaterDelayEmail')
+            ->subject("Watering Delays")
+            ->with([
+                'plantToWater' => $this->plantToWater,
+                'plantLocation'=>$this->plantLocation,
+
+            ]);
     }
 }
