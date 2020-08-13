@@ -14,7 +14,7 @@ class Locations extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'name', 'plantType', 'OtherType', 'picture','notes', 'locationType'
+        'name', 'plantType', 'OtherType', 'picture','notes', 'locationType' ,'user_set'
     ];
 
     public function user(){

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WateringReminder extends Mailable
+class Watertoday extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,7 +19,6 @@ class WateringReminder extends Mailable
 
     public $plantToWater;
     public $location;
-
     public function __construct($plantToWater,$location)
     {
         $this->plantToWater=$plantToWater;
@@ -33,12 +32,11 @@ class WateringReminder extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.WaterRemindereEmail')
-            ->subject("Watering Reminder")
-            ->with([
+        return $this->view('emails.UrgentWaterReminderEmail')
+        ->subject("Urgent Watering Reminder may be needed!")
+        ->with([
             'plantToWater' => $this->plantToWater,
-                'location'=>$this->location,
-
-            ]);
+            'location'=>$this->location,
+        ]);
     }
 }

@@ -11,8 +11,9 @@
     @error('localType') <p style="color:red;">{{$message}}</p>@enderror
     <input type="hidden"  name='waterOrnot'  value="1" >
     @error('waterOrnot') <p style="color:red;">{{$message}}</p>@enderror
-    <input type="hidden"  name='confirmedDelay'  value="NO" >
+    <input type="hidden"  name='user_set'  value="1" >
     @error('confirmedDelay') <p style="color:red;">{{$message}}</p>@enderror
+
 
     <div class="form-group">
         <label for="picture">Example file input</label>
