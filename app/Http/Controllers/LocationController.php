@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Locations;
 use App\Plants;
 use App\User;
+use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use phpDocumentor\Reflection\Location;
 use PHPUnit\Util\PHP\AbstractPhpProcess;
 
@@ -29,11 +31,10 @@ class LocationController extends Controller
             'user_id' => 'required',
             'name' => 'required',
             'plantType' => 'required_without:otherType',
-            'otherType' => 'nullable',
             'locationType' => 'required',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,max:500',
             'notes' => 'nullable',
-            'created_at' => 'required'
+            'location_created_at' => 'required'
         ]);
 
         if ($request->hasFile('picture')) {
@@ -50,15 +51,14 @@ class LocationController extends Controller
         $location->user_id = $request->input('user_id');
         $location->name = $request->input('name');
         $location->plantType = $request->input('plantType');
-        $location->otherType = $request->input('otherType');
         $location->locationType = $request->input('locationType');
         $location->picture = $imageNameToStore;
         $location->notes = $request->input('notes');
-        $location->created_at = $request->input('created_at');
+        $location->location_created_at = $request->input('location_created_at');
         $location->save();
 
-
-        return redirect('/locations');
+        Session::flash('message', "New location has been added to your locations list.");
+        return Redirect::back();
     }
 
     public function show($id)
@@ -92,11 +92,10 @@ class LocationController extends Controller
             'user_id' => 'required',
             'name' => 'required',
             'plantType' => 'required_without:otherType',
-            'otherType' => 'nullable',
             'locationType' => 'required',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,max:500',
             'notes' => 'nullable',
-            'created_at' => 'required'
+            'location_created_at' => 'required'
         ]);
 
 
@@ -113,21 +112,17 @@ class LocationController extends Controller
         $location->user_id = $request->input('user_id');
         $location->name = $request->input('name');
         $location->plantType = $request->input('plantType');
-        $location->otherType = $request->input('otherType');
         $location->locationType = $request->input('locationType');
         if ($request->hasFile('picture')) {
             $location->picture = $imageNameToStore;
         }
 
         $location->notes = $request->input('notes');
-        $location->created_at = $request->input('created_at');
+        $location->location_created_at = $request->input('location_created_at');
         $location->save();
 
-
-
-        return redirect('/locations');
-
-
+        Session::flash('message', "Location information has been updated.");
+        return Redirect::back();
     }
 
     public function destroy($id)
@@ -138,49 +133,17 @@ class LocationController extends Controller
         return redirect('/locations');
     }
 
-
     public function location_create_plant($id)
     {
 
         $user_id = Auth::id();
         $location = User::find($user_id)->locations->find($id);
+
+        Session::flash('message', "The plant has been deleted.");
         return view('plant.create', compact('location'));
     }
 
-    public function location_store_plant()
-    {
 
-        $data = request()->validate([
-            'name' => 'required',
-            'amount' => 'required',
-            'plant_type' => 'required',
-            'picture' => 'nullable',
-            'notes' => 'required',
-            'planted_at' => 'required',
-            'user_id' => 'required',
-            'locations_id' => 'required',
-            'localType'=>'required',
-            'waterOrnot'=>'nullable',
-             'waterReminder'=>'required',
-            'repetions'=> 'required',
-            'confirmedDelay'=>'required',
-            'lastWatered'=>'nullable',
-        ]);
-
-        Plants::create($data);
-
-        return redirect('/locations');
-
-
-    }
-
-    public function location_delete_plant($id)
-    {
-
-        $user_id = Auth::id();
-        $locationplant = User::find($user_id)->plants->find($id)->delete();
-        return redirect('/locations');
-    }
 
 
 }

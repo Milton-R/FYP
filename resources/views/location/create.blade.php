@@ -1,10 +1,20 @@
 @extends('layouts.app')
 @section('content')
 
+    <script>
+        $(document).ready(function () {
+            $("#message").delay(5000)
+                .fadeOut('slow');
+        });</script>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
+                    @if (Session::has('message'))
+                        <div class="alert alert-success"
+                             id="message">{{ Session::get('message') }}</div>
+                    @endif
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6"> <H1>Add new location.</H1></div>
@@ -60,13 +70,13 @@
 
 
                             <div class="form-group ">
-                                <label for="created_at" class="col-form-label">When did you add this location section to
+                                <label for="location_created_at" class="col-form-label">When did you add this location section to
                                     your garden? *</label>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" id="DatePlantedf"
-                                           value="{{ old('created_at') }}"
-                                           name="created_at">
-                                    @error('created_at') <p style="color:red;">{{$message}}</p>@enderror
+                                           value="{{ old('location_created_at') }}"
+                                           name="location_created_at">
+                                    @error('location_created_at') <p style="color:red;">{{$message}}</p>@enderror
                                 </div>
                             </div>
 

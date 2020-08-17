@@ -60,7 +60,7 @@ class WateringReminder extends Command
                 } elseif ($daterange->days == 0 & $plantToWater->waterOrnot == 1) {
                     $plantLocation = $plantToWater->location;
                     $plantToWaterdate = Carbon::create($plantToWater->waterReminder);
-                    $newdate = $plantToWaterdate->addDay($plantToWater->repetions);
+                    $newdate = $plantToWaterdate->addDay($plantToWater->repetitions);
                     $plantToWater->update(['lastWatered' => $datetoday->toDateString(), 'waterReminder' => $newdate->toDateString()]);
                     Mail::to($systemUser->email)->send(new \App\Mail\WateringReminder($plantToWater, $plantLocation->name));
                 }
@@ -71,7 +71,7 @@ class WateringReminder extends Command
     public function waterPlantdelay($plantToWater, $email, $plantLocation)
     {
         $reminderWaterdate = Carbon::create($plantToWater->waterReminder);
-        $newdate = $reminderWaterdate->addDay($plantToWater->repetions);
+        $newdate = $reminderWaterdate->addDay($plantToWater->repetitions);
         $plantToWater->update(['waterReminder' => $newdate->toDateString(), 'waterOrnot' => '1',]);
         Mail::to($email)->send(new wateringDelay($plantToWater, $plantLocation->name));
     }
@@ -81,7 +81,7 @@ class WateringReminder extends Command
     {
         $datetoday = Carbon::now();
         $plantToWaterupdate= Carbon::create($plantToWater->waterReminder);
-        $newdate = $plantToWaterupdate->addDay($plantToWater->repetions);
+        $newdate = $plantToWaterupdate->addDay($plantToWater->repetitions);
         $plantToWater->update(['lastWatered' => $datetoday->toDateString(), 'waterReminder' => $newdate->toDateString(), 'waterOrnot' => '1',]);
         Mail::to($email)->send(new \App\Mail\Watertoday($plantToWater, $plantLocation->name));
 
@@ -95,10 +95,29 @@ class WateringReminder extends Command
         $lastWaterdate = Carbon::create($updatedplant->lastWatered);
         $daydifference = date_diff($lastWaterdate, $datetoday);
 
-        if ($daydifference->days > 0 or $daydifference->days > 3 or $daydifference->days > 7) {
-            WateringReminder::waterPlantToday($plantToWater, $email, $plantLocation);
-        } else {
-            WateringReminder::waterPlantdelay($plantToWater, $email, $plantLocation);
+
+        switch ($plantToWater->repetitions) {
+            case 1:
+                if($daydifference->days > 0){
+                    WateringReminder::waterPlantToday($plantToWater, $email, $plantLocation);
+                }else {
+                    WateringReminder::waterPlantdelay($plantToWater, $email, $plantLocation);
+                }
+                break;
+            case 3:
+                if($daydifference->days >=3){
+                    WateringReminder::waterPlantToday($plantToWater, $email, $plantLocation);
+                }else {
+                    WateringReminder::waterPlantdelay($plantToWater, $email, $plantLocation);
+                }
+                break;
+            case 7:
+                if($daydifference->days >= 7){
+                    WateringReminder::waterPlantToday($plantToWater, $email, $plantLocation);
+                }else {
+                    WateringReminder::waterPlantdelay($plantToWater, $email, $plantLocation);
+                }
+                break;
         }
     }
 }

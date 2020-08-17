@@ -22,8 +22,7 @@ class CreateLocationsTable extends Migration
             $table->string('picture')->nullable();
             $table->longText('notes')->nullable();
             $table ->integer('locationType');
-            $table->Date('created_at');
-            $table->Date('updated_at');
+            $table->Date('location_created_at');
         });
     }
 

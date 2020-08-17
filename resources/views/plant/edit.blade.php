@@ -1,60 +1,134 @@
 @extends('layouts.app')
 @section('content')
-<form action="/plant/{{$location->id}}" method="post" enctype="multipart/form-data">
-    @method('PUT')
-    @csrf
 
-    <input type="hidden"  name='user_id'  value={{ Auth::user()->id }} >
-    @error('user_id') <p style="color:red;">{{$message}}</p>@enderror
+    <script>
+        $(document).ready(function () {
+            $("#message").delay(5000)
+                .fadeOut('slow');
+        });</script>
 
-    <input type="hidden"  name='locations_id'  value={{ $plant->locations->id }}>
-    @error('locations_id') <p style="color:red;">{{$message}}</p>@enderror
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header row no-gutters">
+                        <div class="col-md-6"> <H1>Add New Plant.</H1></div>
+                        <div class="col-md-6">
+                            <a class="btn btn-danger col-4" href="/locations/{{$plant->location_id}}">Cancel</a>
 
-    <div class="form-group">
-        <label for="picture">Photo of this plant *</label>
-        <img src="/storage/location/{{$location->picture}}" alt="" style="width:150px; height:150px; float:left;">
-        <input type="file" class="form-control-file" id="plant_picture" value="{{$plant->picture}}" name="picture">
-        @error('picture') <p style="color:red;">{{$message}}</p>@enderror
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (Session::has('message'))
+                            <div class="alert alert-success"
+                                 id="message">{{ Session::get('message') }}</div>
+                        @endif
+                        <form action="/plants/{{$plant->id}}/update" method="post" enctype="multipart/form-data">
+                            @method('PUT')
+                            @csrf
+
+                            <input type="hidden" name='user_id' value="{{ Auth::user()->id }} ">
+                            @error('user_id') <p style="color:red;">{{$message}}</p>@enderror
+                            <input type="hidden" name='locations_id' value="{{old('location_id',$plant->locations_id)}}" >
+                            @error('locations_id') <p style="color:red;">{{$message}}</p>@enderror
+                            <input type="hidden" name='localType' value="{{ old('localType',$plant->localType)}}" >
+                            @error('localType') <p style="color:red;">{{$message}}</p>@enderror
+                            <input type="hidden" name='waterOrnot' value="1">
+                            @error('waterOrnot') <p style="color:red;">{{$message}}</p>@enderror
+                            <input type="hidden" name='confirmedDelay' value="1">
+                            @error('confirmedDelay') <p style="color:red;">{{$message}}</p>@enderror
+
+                            <div class="form-group ">
+                                <label for="picture" class=" col-form-label">Picture of Plant </label>
+                                <div class="col-md-12">
+                                    <img id="blah" src="/storage/location/{{'noimage.jpg'}}" alt=""
+                                         style="width:50%; height:100%; float:left; margin-bottom: 10px">
+                                    <input type="file" class="form-control-file" id="plantImagef"
+                                           name="picture" value="{{ old('picture') }}" onchange="readURL(this);">
+                                    @error('picture') <p style="color:red;">{{$message}}</p>@enderror
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">Name of the plant:</label>
+                                <input type="text" class="form-control" name="name" value="{{ old('name',$plant->name)}}">
+                                @error('name') <p style="color:red;">{{$message}}</p>@enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount">How many of this do you have planted?</label>
+                                <input type="text" class="form-control" name="amount" value="{{ old('amount',$plant->amount)}}">
+                                @error('amount') <p style="color:red;">{{$message}}</p>@enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="plant_type">What kind of plant is this</label>
+                                <select class="form-control" name="plant_type">
+                                        <option></option>
+                                        <option value="Flower" {{old('plantType',$plant->plant_type)=="Flower"? 'selected':''}}>Flower</option>
+                                        <option value="Vegetable"  {{old('plantType',$plant->plant_type)=="Vegetable"? 'selected':''}}>Vegetable</option>
+                                        <option value="Tree" {{old('plantType',$plant->plant_type)=="Tree"? 'selected':''}}>Tree</option>
+                                        <option value="Herb" {{old('plantType',$plant->plant_type)=="Herb"? 'selected':''}}>Herb</option>
+                                        <option value="Shrubs" {{old('plantType',$plant->plant_type)=="Shrubs"? 'selected':''}} >Shrubs</option>
+                                    </select>
+                                @error('plant_type') <p style="color:red;">{{$message}}</p>@enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="planted_at">What day did you plant this? </label>
+                                <input type="date" class="form-control" id="DatePlantedf" name="planted_at" value="{{ old('planted_at',$plant->planted_at)}}">
+                                @error('planted_at') <p style="color:red;">{{$message}}</p>@enderror
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="notes">what extra information would you like to give?</label>
+                                <textarea class="form-control" name="notes" rows="5">{{ old('notes',$plant->notes)}}</textarea>
+                                @error('notes') <p style="color:red;">{{$message}}</p>@enderror
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="planted_at">When would you like to water this plant?</label>
+                                <input type="date" class="form-control" id="waterReminder" name="waterReminder" value="{{ old('waterReminder',$plant->waterReminder)}}">
+                                @error('waterReminder') <p style="color:#ff0000;">{{$message}}</p>@enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="repetitions">how often does this plant need to be watered?</label>
+                                <select class="form-control" name="repetitions">
+                                    <option></option>
+                                    <option {{old('repetitions',$plant->repetitions)=="1"? 'selected':''}} value="1">Daily</option>
+                                    <option {{old('repetitions',$plant->repetitions)=="3"? 'selected':''}} value="3">Every 3 Days</option>
+                                    <option {{old('repetitions',$plant->repetitions)=="7"? 'selected':''}} value="7">Every 7 Days</option>
+                                </select>
+                                @error('repetitions') <p style="color:red;">{{$message}}</p>@enderror
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">Update plant</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="name">What is the name of this plant? *</label>
-        <input type="text" class="form-control"  value="{{$plant->name}}" name="name">
-        @error('name') <p style="color:red;">{{$message}}</p>@enderror
-    </div>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-    <div class="form-group">
-        <label for="amount">Wow many plants of this kind have you planted on this location? *</label>
-        <input type="text" class="form-control" value="{{$plant->amount}}" name="amount">
-        @error('amount') <p style="color:red;">{{$message}}</p>@enderror
-    </div>
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
 
-    <div class="form-group">
-        <label for="plantType">What type of plants will you be keeping in this Location? *</label>
-        <select class="form-control" name="plantType">
-            <option></option>
-            <option {{old('plantType',$location->plantType)=="Flower"? 'selected':''}}>Flower</option>
-            <option {{old('plantType',$location->plantType)=="Vegetable"? 'selected':''}}>Vegetable</option>
-            <option {{old('plantType',$location->plantType)=="Tree"? 'selected':''}}>Tree</option>
-            <option {{old('plantType',$location->plantType)=="Herb"? 'selected':''}}>Herb</option>
-            <option {{old('plantType',$location->plantType)=="Shrubs"? 'selected':''}}>Shrubs</option>
-        </select>
-        @error('plant_type') <p style="color:red;">{{$message}}</p>@enderror
-    </div>
+                };
 
-    <div class="form-group">
-        <label for="planted_at">When did you plant this plant in this Location? *</label>
-        <input type="date" class="form-control" id="DatePlantedf" value="{{$plant->plant_at}}" name="planted_at">
-        @error('planted_at') <p style="color:red;">{{$message}}</p>@enderror
-    </div>
+                reader.readAsDataURL(input.files[0]);
+            }
+        }</script>
 
-    <div class="form-group">
-        <label for="notes">Notes</label>
-        <textarea class="form-control" name="notes" value="notes"  value="{{$plant->notes}}" rows="5"></textarea>
-        @error('notes') <p style="color:red;">{{$message}}</p>@enderror
-    </div>
 
-    <button class="btn-primary" type="submit">Update</button>
-
-</form>
 @endsection

@@ -31,17 +31,17 @@ Route::get('/locations/{id}', 'LocationController@show');
 Route::get('/locations/{id}/edit', 'LocationController@edit');
 Route::put('locations/{id}', 'LocationController@update');
 Route::delete('/locations/{id}', 'LocationController@destroy');
-Route::delete('/locations_delete_plant/{id}', 'LocationController@location_delete_plant');
+Route::delete('/locations_delete_plant/{id}', 'PlantController@location_delete_plant');
 
-Route::post('/location/store_plant', 'LocationController@location_store_plant');
-Route::get('/locations/{id}/create_plant', 'LocationController@location_create_plant');
+Route::post('/location/store_plant', 'PlantController@location_store_plant');
+Route::get('/locations/{id}/create_plant', 'PlantController@location_create_plant');
 
 Route::get('/plants', 'PlantController@index');
 Route::get('/plants/create', 'PlantController@create');
 Route::post('/plants', 'PlantController@store');
 Route::get('/plants/{plant_id}', 'PlantController@show');
 Route::get('/plants/{plant_id}/edit', 'PlantController@edit');
-Route::put('plants/{plant_id}', 'PlantController@update');
+Route::put('plants/{plant_id}/update', 'PlantController@update');
 Route::delete('/plants/{plant_id}', 'PlantController@destroy');
 
 Route::get('/weatherhome', 'HomeController@weather');
@@ -53,5 +53,4 @@ Route::put('/tasks/{task_id}', 'HomeController@update');
 Route::put('/todo_tasks/{task_id}', 'HomeController@updatestatus');
 Route::put('/doing_tasks/{task_id}', 'HomeController@updatestatus');
 Route::put('/done_tasks/{task_id}', 'HomeController@updatestatus');
-Route::put('/update_tasks/{task_id}', 'HomeController@update');
 Route::delete('/tasks/{id}', 'HomeController@destroy');

@@ -17,6 +17,8 @@ class Locations extends Model
         'name', 'plantType', 'OtherType', 'picture','notes', 'locationType' ,'user_set'
     ];
 
+    public $timestamps = false;
+
     public function user(){
 
         return $this->belongsTo(User::class);

@@ -1,10 +1,29 @@
 @extends('layouts.app')
 @section('content')
+
+    <script>
+        $(document).ready(function () {
+            $("#message").delay(5000)
+                .fadeOut('slow');
+        });</script>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><H1>Edit Location information.</H1></div>
+                    @if (Session::has('message'))
+                        <div class="alert alert-success"
+                             id="message">{{ Session::get('message') }}</div>
+                    @endif
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-6"> <H1> Location information.</H1></div>
+                                <div class="col-md-6">
+                                    <a type="button" href="{{ url('/locations') }}" class="btn btn-light"> Cancel </a>
+                                </div>
+                            </div>
+
+                        </div>
                     <div class="card-body">
 
                         <form action="/locations/{{$location->id}}" method="post" enctype="multipart/form-data">
@@ -19,7 +38,7 @@
 
                                     <img id="blah" src="/storage/location/{{$location->picture}}" alt=""
                                          style="width:50%; height:100%; float:left; margin-bottom: 10px">
-                                        <input type="file" class="form-control-file" value="{{$location->picture}}"
+                                        <input type="file" class="form-control-file" value="{{old('picture',$location->picture)}}"
                                                id="LocationImagef"
                                                name="picture" onchange="readURL(this);">
                                         @error('picture') <p style="color:red;">{{$message}}</p>@enderror
@@ -29,7 +48,7 @@
                             <div class="form-group">
                                 <label for="name">* Name of Location:</label>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" value="{{$location->name}}" name="name">
+                                    <input type="text" class="form-control" value="{{old('name',$location->name)}}" name="name">
                                     @error('name') <p style="color:red;">{{$message}}</p>@enderror
                                 </div>
 
@@ -65,9 +84,9 @@
                                 <label for="created_at">*When did you add this location section to your garden?</label>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" id="DatePlantedf"
-                                           value="{{$location->created_at->toDateString()}}"
+                                           value="{{old('created_at',$location->location_created_at)}}"
                                            name="created_at">
-                                    @error('DatePlantedf') <p style="color:red;">{{$message}}</p>@enderror
+                                    @error('created_at') <p style="color:red;">{{$message}}</p>@enderror
                                 </div>
 
                             </div>
@@ -75,7 +94,8 @@
                             <div class="form-group">
                                 <label for="LocationNotesF">Notes about this location:</label>
                                 <div class="col-md-12">
-                                    <textarea class="form-control" name="notes" rows="5"></textarea>
+                                    <textarea class="form-control" name="notes" rows="5">{{old('notes',$location->notes)}}</textarea>
+                                    @error('notes') <p style="color:red;">{{$message}}</p>@enderror
                                 </div>
 
                             </div>

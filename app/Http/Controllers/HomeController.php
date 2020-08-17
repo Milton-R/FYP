@@ -126,7 +126,11 @@ class HomeController extends Controller
         ]);
         $user_id = Auth::id();
         $tasks = User::find($user_id)->tasks->find($id);
-        $tasks->status = $request->input('status');
+        $tasks->title = $request->input('title');
+        $tasks->description = $request->input('description');
+        $tasks->importance = $request->input('importance');
+        $tasks->due_Date = $request->input('due_Date');
+        $tasks->user_id = $request->input('user_id');
         $tasks->save();
 
         Session::flash('message', "Your Tasks has been updated and we will send you an email reminding you when its due. ");

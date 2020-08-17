@@ -1,8 +1,8 @@
 <div id="todorow" class="row">
     <div class="card col-xs-12 col-md-4 " style=" margin-top:10%; padding: 0 ">
-        <div class="card-header">
-            <h3>To-do</h3>
-            <a class="btn btn-primary" href="/tasks/create" role="button">add new</a>
+        <div class="card-header row no-gutters">
+            <div   class="col-8"> <h3>To-do:</h3></div>
+           <div col-2><a class="btn btn-primary" href="/tasks/create" role="button">add new</a></div>
         </div>
         <ul class="list-group list-group-flush">
             @foreach($todo_tasks as $task)
@@ -23,6 +23,9 @@
                                     </svg>
                                 </button>
                                 <div class="dropdown-content">
+                                    <div>
+                                        <a class="btn btn-primary" href="tasks/{{$task->id}}/edit" role="button">View Task</a>
+                                    </div>
                                     <div>
                                         <form class="deletetask" action="tasks/{{$task->id}}" method="post">
                                             @method('DELETE')
@@ -76,6 +79,9 @@
                                               d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                     </svg></button>
                                 <div class="dropdown-content">
+                                    <div>
+                                        <a class="btn btn-primary" href="/tasks/{{$task->id}}/edit" role="button">View Task</a>
+                                    </div>
                                     <div>
                                         <form class="deletetask" action="tasks/{{$task->id}}" method="post">
                                             @method('DELETE')
@@ -144,6 +150,9 @@
                                               d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                     </svg></button>
                                 <div class="dropdown-content">
+                                    <div>
+                                        <a class="btn btn-primary" href="/tasks/{{$task->id}}/edit" role="button">View Task</a>
+                                    </div>
                                     <div>
                                         <form class="deletetask" action="tasks/{{$task->id}}" method="post">
                                             @method('DELETE')
