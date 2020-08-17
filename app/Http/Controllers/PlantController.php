@@ -101,7 +101,7 @@ class PlantController extends Controller
             'amount' => 'required',
             'plant_type' => 'required',
             'picture' =>  'nullable|image|mimes:jpeg,png,jpg,gif,svg,max:500',
-            'notes' => 'required',
+            'notes' => 'nullable',
             'planted_at' => 'required',
             'user_id' => 'required',
             'locations_id' => 'required',

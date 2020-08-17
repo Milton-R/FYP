@@ -81,12 +81,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="created_at">*When did you add this location section to your garden?</label>
+                                <label for="location_created_at">*When did you add this location section to your garden?</label>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" id="DatePlantedf"
-                                           value="{{old('created_at',$location->location_created_at)}}"
-                                           name="created_at">
-                                    @error('created_at') <p style="color:red;">{{$message}}</p>@enderror
+                                           value="{{old('location_created_at',$location->location_created_at)}}"
+                                           name="location_created_at">
+                                    @error('location_created_at') <p style="color:red;">{{$message}}</p>@enderror
                                 </div>
 
                             </div>

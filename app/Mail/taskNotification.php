@@ -30,7 +30,7 @@ class taskNotification extends Mailable
     public function build()
     {
         return $this->markdown('emails.TaskRemindereEmail')
-            ->subject("Watering Reminder")
+            ->subject("Task Due")
             ->with([
                 'task' => $this->task,
 

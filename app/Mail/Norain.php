@@ -29,6 +29,6 @@ class Norain extends Mailable
     public function build()
     {
         return $this->markdown('emails.weatherNorain')
-            ->subject("Watering Reminder");
+            ->subject("Weather Advice");
     }
 }

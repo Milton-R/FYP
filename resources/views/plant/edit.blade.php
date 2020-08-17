@@ -12,7 +12,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header row no-gutters">
-                        <div class="col-md-6"> <H1>Add New Plant.</H1></div>
+                        <div class="col-md-6"> <H1>View Plant.</H1></div>
                         <div class="col-md-6">
                             <a class="btn btn-danger col-4" href="/locations/{{$plant->location_id}}">Cancel</a>
 
